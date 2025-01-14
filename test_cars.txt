@@ -1,0 +1,5 @@
+Car,Tesla Model S,1020.00,2020
+Car,BMW M3,473.00,2022
+Car,Audi RS7,591.00,2021
+Car,Mercedes-Benz E-Class,362.00,2023
+Car,Ford Mustang,450.00,2021
