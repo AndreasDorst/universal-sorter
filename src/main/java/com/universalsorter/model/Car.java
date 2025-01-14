@@ -1,10 +1,6 @@
 package com.universalsorter.model;
 
-
-
-
-public class Car {
-
+public class Car implements Storable {
 
     private final String model;
     private final Double power;
@@ -15,7 +11,6 @@ public class Car {
         this.power = power;
         this.yearOfProduction = yearOfProduction;
     }
-
 
 
     public static Book.Builder builder() {
@@ -45,7 +40,7 @@ public class Car {
         }
 
         public Car build() {
-            if (model == null || power <=0 || yearOfProduction <1800) {
+            if (model == null || power <= 0 || yearOfProduction < 1800) {
                 throw new IllegalStateException("Введены некорректные данные");
             }
             return new Car(model, power, yearOfProduction);
@@ -62,5 +57,19 @@ public class Car {
 
     public Integer getYearOfProduction() {
         return yearOfProduction;
+    }
+
+    @Override
+    public String serialize() {
+        return String.format("Car,%s,%.2f,%d", model, power, yearOfProduction);
+    }
+
+    @Override
+    public Storable deserialize(String data) {
+        String[] parts = data.split(",");
+        if (parts.length != 4 || !"Car".equals(parts[0])) {
+            throw new IllegalArgumentException("Некорректные данные для десериализации Car: " + data);
+        }
+        return new Car(parts[1], Double.parseDouble(parts[2]), Integer.parseInt(parts[3]));
     }
 }

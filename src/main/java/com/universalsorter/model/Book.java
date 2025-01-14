@@ -1,9 +1,6 @@
 package com.universalsorter.model;
-import lombok.Getter;
 
-
-public class Book {
-
+public class Book implements Storable {
 
     private final String author;
     private final String title;
@@ -14,7 +11,6 @@ public class Book {
         this.title = title;
         this.numberOfPages = numberOfPages;
     }
-
 
 
     public static Builder builder() {
@@ -44,12 +40,13 @@ public class Book {
         }
 
         public Book build() {
-            if (author == null || title == null || numberOfPages <1) {
+            if (author == null || title == null || numberOfPages < 1) {
                 throw new IllegalStateException("Введены некорректные данные");
             }
             return new Book(author, title, numberOfPages);
         }
     }
+
     public String getAuthor() {
         return author;
     }
@@ -60,5 +57,23 @@ public class Book {
 
     public Integer getNumberOfPages() {
         return numberOfPages;
+    }
+
+    @Override
+    public String serialize() {
+        return String.format("Book,%s,%s,%d", author, title, numberOfPages);
+    }
+
+    @Override
+    public Storable deserialize(String data) {
+        String[] parts = data.split(",");
+        if (parts.length != 4 || !"Book".equals(parts[0])) {
+            throw new IllegalArgumentException("Некорректные данные для десериализации Book: " + data);
+        }
+        return Book.builder()
+                .author(parts[1])
+                .title(parts[2])
+                .page(Integer.parseInt(parts[3]))
+                .build();
     }
 }

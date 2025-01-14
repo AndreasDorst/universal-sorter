@@ -1,15 +1,12 @@
 package com.universalsorter.model;
-import lombok.Getter;
 
-
-
-public class RootVegetable {
+public class RootVegetable implements Storable {
 
     private final String type;
     private final Double weight;
-    private final Color color;
+    private final String color;
 
-    public RootVegetable(String type, Double weight, Color color) {
+    public RootVegetable(String type, Double weight, String color) {
         this.type = type;
         this.weight = weight;
         this.color = color;
@@ -22,7 +19,7 @@ public class RootVegetable {
     public static class Builder {
         private String type;
         private Double weight;
-        private Color color;
+        private String color;
 
 
         public RootVegetable.Builder type(String type) {
@@ -35,13 +32,13 @@ public class RootVegetable {
             return this;
         }
 
-        public RootVegetable.Builder color(Color color) {
+        public RootVegetable.Builder color(String color) {
             this.color = color;
             return this;
         }
 
         public RootVegetable build() {
-            if (type == null || weight <=0 || color ==null) {
+            if (type == null || weight <= 0 || color == null) {
                 throw new IllegalStateException("Введены некорректные данные");
             }
             return new RootVegetable(type, weight, color);
@@ -56,9 +53,21 @@ public class RootVegetable {
         return weight;
     }
 
-    public Color getColor() {
+    public String getColor() {
         return color;
     }
 
+    @Override
+    public String serialize() {
+        return String.format("RootVegetable,%s,%.2f,%s", type, weight, color);
+    }
 
+    @Override
+    public Storable deserialize(String data) {
+        String[] parts = data.split(",");
+        if (parts.length != 4 || !"RootVegetable".equals(parts[0])) {
+            throw new IllegalArgumentException("Некорректные данные для десериализации RootVegetable: " + data);
+        }
+        return new RootVegetable(parts[1], Double.parseDouble(parts[2]), parts[3]);
+    }
 }
