@@ -1,12 +1,12 @@
 package com.universalsorter.model;
 
-public class Car implements Storable {
+public class Car implements Storable,Comparable {
 
     private final String model;
     private final Double power;
     private final Integer yearOfProduction;
 
-    public Car(String model, Double power, Integer yearOfProduction) {
+    private Car(String model, Double power, Integer yearOfProduction) {
         this.model = model;
         this.power = power;
         this.yearOfProduction = yearOfProduction;
@@ -15,6 +15,11 @@ public class Car implements Storable {
 
     public static Book.Builder builder() {
         return new Book.Builder();
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 
 
@@ -71,5 +76,12 @@ public class Car implements Storable {
             throw new IllegalArgumentException("Некорректные данные для десериализации Car: " + data);
         }
         return new Car(parts[1], Double.parseDouble(parts[2]), Integer.parseInt(parts[3]));
+    }
+
+    @Override
+    public String toString() {
+        return "Модель: " + model + "\n" +
+                "Мощность: " + power + "\n"+
+                "Год выпуска: " + yearOfProduction+"\n";
     }
 }

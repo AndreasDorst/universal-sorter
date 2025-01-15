@@ -1,12 +1,14 @@
 package com.universalsorter.model;
 
-public class Book implements Storable {
+public class Book implements Storable,Comparable {
 
     private final String author;
     private final String title;
     private final Integer numberOfPages;
 
-    public Book(String author, String title, Integer numberOfPages) {
+
+
+    private Book(String author, String title, Integer numberOfPages) {
         this.author = author;
         this.title = title;
         this.numberOfPages = numberOfPages;
@@ -15,6 +17,11 @@ public class Book implements Storable {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 
 
@@ -75,5 +82,11 @@ public class Book implements Storable {
                 .title(parts[2])
                 .page(Integer.parseInt(parts[3]))
                 .build();
+    }
+    @Override
+    public String toString() {
+        return "Автор: " + author + "\n" +
+                "Название книги: " + title + "\n" +
+                "Количество страниц: " + numberOfPages+"\n";
     }
 }

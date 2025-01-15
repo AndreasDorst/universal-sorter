@@ -1,12 +1,12 @@
 package com.universalsorter.model;
 
-public class RootVegetable implements Storable {
+public class RootVegetable implements Storable,Comparable {
 
     private final String type;
     private final Double weight;
     private final String color;
 
-    public RootVegetable(String type, Double weight, String color) {
+    private RootVegetable(String type, Double weight, String color) {
         this.type = type;
         this.weight = weight;
         this.color = color;
@@ -15,6 +15,12 @@ public class RootVegetable implements Storable {
     public static RootVegetable.Builder builder() {
         return new RootVegetable.Builder();
     }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
+
 
     public static class Builder {
         private String type;
@@ -69,5 +75,12 @@ public class RootVegetable implements Storable {
             throw new IllegalArgumentException("Некорректные данные для десериализации RootVegetable: " + data);
         }
         return new RootVegetable(parts[1], Double.parseDouble(parts[2]), parts[3]);
+    }
+
+    @Override
+    public String toString() {
+        return "Тип корнеплода: " + type + "\n" +
+                "Вес: " + weight +"\n"+
+                "Цвет: " + color + "\n";
     }
 }
