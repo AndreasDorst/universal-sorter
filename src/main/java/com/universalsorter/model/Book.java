@@ -1,11 +1,10 @@
 package com.universalsorter.model;
 
-public class Book implements Storable,Comparable {
+public class Book implements Storable, Comparable {
 
     private final String author;
     private final String title;
     private final Integer numberOfPages;
-
 
 
     private Book(String author, String title, Integer numberOfPages) {
@@ -30,6 +29,17 @@ public class Book implements Storable,Comparable {
         private String title;
         private Integer numberOfPages;
 
+        private void validate() {
+            final int MINIMUM_VALUE = 1; // минимальное количество страниц
+            final int MAXIMUM_VALUE = 21450; // максимальное количество страниц
+            final String ERROR_MESSAGE = "Введены некорректные данные"; // сообщение об ошибке
+
+            if (author == null || title == null || author.isEmpty() || title.isEmpty()
+                    || numberOfPages < MINIMUM_VALUE || numberOfPages > MAXIMUM_VALUE) {
+                throw new IllegalStateException(ERROR_MESSAGE);
+            }
+
+        }
 
         public Book.Builder author(String author) {
             this.author = author;
@@ -47,9 +57,7 @@ public class Book implements Storable,Comparable {
         }
 
         public Book build() {
-            if (author == null || title == null || numberOfPages < 1) {
-                throw new IllegalStateException("Введены некорректные данные");
-            }
+            validate();
             return new Book(author, title, numberOfPages);
         }
     }
@@ -65,6 +73,7 @@ public class Book implements Storable,Comparable {
     public Integer getNumberOfPages() {
         return numberOfPages;
     }
+
 
     @Override
     public String serialize() {
@@ -83,10 +92,11 @@ public class Book implements Storable,Comparable {
                 .page(Integer.parseInt(parts[3]))
                 .build();
     }
+
     @Override
     public String toString() {
         return "Автор: " + author + "\n" +
                 "Название книги: " + title + "\n" +
-                "Количество страниц: " + numberOfPages+"\n";
+                "Количество страниц: " + numberOfPages + "\n";
     }
 }
