@@ -16,8 +16,9 @@ public class Book implements Storable,Comparable {
     }
 
 
-    public static Builder builder() {
-        return new Builder();
+
+    public static Book.Builder builder() {
+        return new Book.Builder();
     }
 
     @Override

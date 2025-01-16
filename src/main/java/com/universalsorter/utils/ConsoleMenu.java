@@ -15,7 +15,7 @@ public class ConsoleMenu {
     }
 
 
-    public void execute() throws IOException {
+    public void execute() throws IOException, InstantiationException, IllegalAccessException {
         while (true) {
             printMainMenu();
             String choice = scanner.next();
@@ -35,7 +35,7 @@ public class ConsoleMenu {
     }
 
 
-    private void handleMainMenu(String choice) throws IOException {
+    private void handleMainMenu(String choice) throws IOException, InstantiationException, IllegalAccessException {
 
         int selection=0;
         if (choice.matches("^[1-7]$")) {
@@ -80,7 +80,7 @@ public class ConsoleMenu {
     }
 
 
-    private void loadDataIntoArray() throws IOException {
+    private void loadDataIntoArray() throws IOException, InstantiationException, IllegalAccessException {
 
         System.out.println("\n1. Загрузить случайные данные");
         System.out.println("2. Загрузить данные из файла");

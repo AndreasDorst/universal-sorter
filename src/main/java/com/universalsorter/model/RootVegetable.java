@@ -1,7 +1,7 @@
 package com.universalsorter.model;
 import java.util.Locale;
 
-public class RootVegetable implements Storable,Comparable {
+public class RootVegetable implements Storable,Comparable{
 
     private final String type;
     private final Double weight;
@@ -75,7 +75,11 @@ public class RootVegetable implements Storable,Comparable {
         if (parts.length != 4 || !"RootVegetable".equals(parts[0])) {
             throw new IllegalArgumentException("Некорректные данные для десериализации RootVegetable: " + data);
         }
-        return new RootVegetable(parts[1], Double.parseDouble(parts[2]), parts[3]);
+        return RootVegetable.builder()
+                .type(parts[1])
+                .weight(Double.valueOf(parts[2]))
+                .color(parts[3])
+                .build();
     }
 
     @Override

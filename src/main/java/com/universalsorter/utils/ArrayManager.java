@@ -1,6 +1,4 @@
 package com.universalsorter.utils;
-import com.universalsorter.model.Book;
-import com.universalsorter.model.Car;
 import com.universalsorter.model.Storable;
 import com.universalsorter.repository.BookRepository;
 import com.universalsorter.repository.CarRepository;
@@ -10,12 +8,13 @@ import java.io.IOException;
 import java.util.*;
 
 public class ArrayManager {
-    private Storable[] array;
+    private Comparable[] array;
     private final BookRepository bookRepository = new BookRepository();
     private final CarRepository carRepository = new CarRepository();
     private final RootVegetableRepository rootVegetableRepository = new RootVegetableRepository();
     private final FileHandler fileHandler = new FileHandler();
-    private final String fileForWork = "file.txt";
+    private final String fileForWrite = "fileWrite.txt";
+    private final String fileForRead = "fileRead.txt";
 
 
     public void createNewArray(String size) {
@@ -28,33 +27,10 @@ public class ArrayManager {
             return;
         }
 
-        this.array = new Storable[selection];
+        this.array = new Comparable[selection];
         System.out.println("Массив создан. Размер: " + size + "\n");
 
 
-import java.util.Optional;
-import java.util.Random;
-import java.util.Arrays;
-import java.util.Collections;
-
-public class ArrayManager {
-    private Comparable[] array;
-    private final BookRepository bookRepository = new BookRepository();
-    private final CarRepository carRepository = new CarRepository();
-    private final RootVegetableRepository rootVegetableRepository = new RootVegetableRepository();
-
-
-    public void createNewArray(String size) {
-        int selection=0;
-        if (size.matches("^0|[1-9][0-9]*$")) {
-            selection=Integer.parseInt(size);
-
-        } else {
-            System.out.println("\nНеправильный ввод. Пожалуйста, введите корректное значение.\n");return;
-        }
-
-        this.array = new Comparable[selection];
-        System.out.println("Массив создан. Размер: " + size+"\n");
     }
 
     // Загрузка случайных данных в массив
@@ -69,7 +45,7 @@ public class ArrayManager {
         for (int i = 0; i < array.length; i++) {
             switch (random.nextInt(3)) {
                 case 0:
-                    array[i] = bookRepository.getBook(book);
+                    array[i] = (Comparable) bookRepository.getBook(book);
                     book++;
                 
                     if (bookRepository.getBook(book) == null) {
@@ -77,7 +53,7 @@ public class ArrayManager {
                     }
                     break;
                 case 1:
-                    array[i] = carRepository.getCar(car);
+                    array[i] = (Comparable) carRepository.getCar(car);
                     car++;
                
                     if (carRepository.getCar(car) == null) {
@@ -85,7 +61,7 @@ public class ArrayManager {
                     }
                     break;
                 case 2:
-                    array[i] = rootVegetableRepository.getRootVegetable(root);
+                    array[i] = (Comparable) rootVegetableRepository.getRootVegetable(root);
                     root++;
 
                     if (rootVegetableRepository.getRootVegetable(root) == null) {
@@ -113,10 +89,10 @@ public class ArrayManager {
     }
 
     public void saveToFile() throws IOException {
-        for (Storable st : array) {
-            fileHandler.writeToFile(fileForWork, st);
+        for (Comparable st : array) {
+            fileHandler.writeToFile(fileForWrite, (Storable) st);
         }
-
+    }
 
     public void sortArray() {
         if (array == null) {
@@ -147,7 +123,7 @@ public class ArrayManager {
         }
         StringBuilder sb = new StringBuilder();
       
-        for (Storable element : array) {
+        for (Comparable element : array) {
             if (element == null) {
                 sb.append("\nПустой слот.\n");
             } else {
@@ -167,7 +143,7 @@ public class ArrayManager {
             int element = Integer.parseInt(index);
             if (element <= array.length && element != 0) {
 
-                Optional<Comparable> temp = Optional.ofNullable((Comparable) array[element - 1]);
+                Optional<Comparable> temp = Optional.ofNullable(array[element - 1]);
 
                 temp.ifPresentOrElse(v -> System.out.println(v), () -> System.out.println("Пустой слот.\n"));
             } else {
@@ -177,14 +153,14 @@ public class ArrayManager {
     }
 
   //загрузка данных из файла с массив.
-    public void downloadDataFromFile() throws IOException {
+    public void downloadDataFromFile() throws IOException, InstantiationException, IllegalAccessException {
         if (array == null) {
             throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
         }
 
-        List<Storable> objects = fileHandler.readFromFile("file.txt");
+        List<Storable> objects = fileHandler.readFromFile(fileForRead);
         for(int i=0;i<objects.size()&&i<array.length;i++){
-            array[i]= objects.get(i);
+            array[i]= (Comparable) objects.get(i);
         }
 
     }
