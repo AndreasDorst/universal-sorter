@@ -117,7 +117,7 @@ public class QuickSort {
      * Метод получает <code>Book[] Books</code>, <code>int low</code>, <code>int high</code>
      * и используется для перестановки элементов массива вокруг точки поворота.
      *
-     * @param Books Наши машины.
+     * @param Books Наши книги.
      * @param low указатель номера элемента в массиве.
      * @param high указатель номера элемента в массиве.
      *
