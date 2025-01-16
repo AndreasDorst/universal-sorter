@@ -1,5 +1,4 @@
 package com.universalsorter.model;
-
 import java.util.Locale;
 
 public class RootVegetable implements Storable,Comparable {
