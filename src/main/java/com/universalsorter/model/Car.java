@@ -1,7 +1,9 @@
 package com.universalsorter.model;
+
+import java.time.Year;
 import java.util.Locale;
 
-public class Car implements Storable,Comparable {
+public class Car implements Storable, Comparable {
 
     private final String model;
     private final Double power;
@@ -29,6 +31,20 @@ public class Car implements Storable,Comparable {
         private Double power;
         private Integer yearOfProduction;
 
+        private void validate() {
+            final double MINIMUM_POWER = 0; // минимальное количество лошадиных сил
+            final double MAXIMUM_POWER = 2000; // максимальное количество лошадиных сил
+            final int MIN_YEAR_OF_PRODUCTION = 1800; // минимальная дата производства
+            final int MAX_YEAR_OF_PRODUCTION = Year.now().getValue(); // максимальная дата производства
+            final String ERROR_MESSAGE = "Введены некорректные данные"; // сообщение об ошибке
+
+            if (model == null || power == null || model.isEmpty() || power <= MINIMUM_POWER || power > MAXIMUM_POWER ||
+                    yearOfProduction < MIN_YEAR_OF_PRODUCTION || yearOfProduction > MAX_YEAR_OF_PRODUCTION) {
+                throw new IllegalStateException(ERROR_MESSAGE);
+            }
+
+        }
+
 
         public Car.Builder model(String model) {
             this.model = model;
@@ -46,9 +62,7 @@ public class Car implements Storable,Comparable {
         }
 
         public Car build() {
-            if (model == null || power <= 0 || yearOfProduction < 1800) {
-                throw new IllegalStateException("Введены некорректные данные");
-            }
+            validate();
             return new Car(model, power, yearOfProduction);
         }
     }
@@ -67,7 +81,7 @@ public class Car implements Storable,Comparable {
 
     @Override
     public String serialize() {
-        return String.format(Locale.US,"Car,%s,%.2f,%d", model, power, yearOfProduction);
+        return String.format(Locale.US, "Car,%s,%.2f,%d", model, power, yearOfProduction);
     }
 
     @Override
@@ -82,7 +96,7 @@ public class Car implements Storable,Comparable {
     @Override
     public String toString() {
         return "Модель: " + model + "\n" +
-                "Мощность: " + power + "\n"+
-                "Год выпуска: " + yearOfProduction+"\n";
+                "Мощность: " + power + "\n" +
+                "Год выпуска: " + yearOfProduction + "\n";
     }
 }
