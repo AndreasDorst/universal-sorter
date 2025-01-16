@@ -1,5 +1,7 @@
 package com.universalsorter.model;
 
+import java.util.Locale;
+
 public class Book implements Storable,Comparable {
 
     private final String author;
@@ -68,11 +70,11 @@ public class Book implements Storable,Comparable {
 
     @Override
     public String serialize() {
-        return String.format("Book,%s,%s,%d", author, title, numberOfPages);
+        return String.format(Locale.US,"Book,%s,%s,%d", author, title, numberOfPages);
     }
 
     @Override
-    public Storable deserialize(String data) {
+    public Book deserialize(String data) {
         String[] parts = data.split(",");
         if (parts.length != 4 || !"Book".equals(parts[0])) {
             throw new IllegalArgumentException("Некорректные данные для десериализации Book: " + data);

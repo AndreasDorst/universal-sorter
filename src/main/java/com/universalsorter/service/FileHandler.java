@@ -1,5 +1,8 @@
 package com.universalsorter.service;
 
+import com.universalsorter.model.Book;
+import com.universalsorter.model.Car;
+import com.universalsorter.model.RootVegetable;
 import com.universalsorter.model.Storable;
 
 import java.io.*;
@@ -20,9 +23,11 @@ public class FileHandler {
      */
     public void writeToFile(String fileName, Storable object) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
-            writer.write(object.serialize());
-            writer.newLine();
-        }
+                if (object!=null){
+                writer.write(object.serialize());
+                writer.newLine();}
+            }
+
     }
 
     /**
@@ -34,6 +39,7 @@ public class FileHandler {
      * @return Список объектов из файла.
      * @throws IOException Если произошла ошибка при чтении.
      */
+
     public <T extends Storable> List<T> readFromFile(String fileName, T type) throws IOException {
         List<T> objects = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -45,4 +51,36 @@ public class FileHandler {
         }
         return objects;
     }
+
+    public <T extends Storable>List<T> readFromFile(String fileName) throws IOException {
+        List<Storable> objects = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] split = line.split(",");
+                Storable obj;
+
+                // Определяем тип объекта и создаем его
+                switch (split[0]) {
+                    case "Book":
+                        obj = new Book.Builder().title(split[1]).author(split[2]).page(Integer.valueOf(split[3])).build();
+                        break;
+                    case "Car":
+                        obj = new Car.Builder().model(split[1]).power(Double.valueOf(split[2])).yearOfProduction(Integer.valueOf(split[3])).build();
+                        break;
+                    case "RootVegetable":
+                        obj = new RootVegetable.Builder().type(split[1]).weight(Double.valueOf(split[2])).color(split[3]).build();
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Неизвестный тип: " + split[0]);
+                }
+                obj.deserialize(line);
+                objects.add(obj);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new IOException("Ошибка при чтении данных из файла: " + e.getMessage(), e);
+        }
+        return objects;
+    }
+
 }
