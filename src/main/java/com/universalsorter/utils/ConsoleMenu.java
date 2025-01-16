@@ -1,7 +1,7 @@
 package com.universalsorter.utils;
 
 import com.universalsorter.model.Storable;
-
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -14,7 +14,8 @@ public class ConsoleMenu {
         scanner = new Scanner(System.in);
     }
 
-    public void execute() {
+
+    public void execute() throws IOException {
         while (true) {
             printMainMenu();
             String choice = scanner.next();
@@ -33,7 +34,9 @@ public class ConsoleMenu {
         System.out.print("Выберите пункт меню: ");
     }
 
-    private void handleMainMenu(String choice) {
+
+    private void handleMainMenu(String choice) throws IOException {
+
         int selection=0;
         if (choice.matches("^[1-7]$")) {
             selection=Integer.parseInt(choice);
@@ -76,7 +79,9 @@ public class ConsoleMenu {
 
     }
 
-    private void loadDataIntoArray() {
+
+    private void loadDataIntoArray() throws IOException {
+
         System.out.println("\n1. Загрузить случайные данные");
         System.out.println("2. Загрузить данные из файла");
         System.out.println("3. Добавить элемент вручную");
@@ -113,7 +118,9 @@ public class ConsoleMenu {
      //Добавление объект кастомного класса;
     }
 
-    private void saveDataToFile() {
+
+    private void saveDataToFile() throws IOException {
+
         arrayManager.saveToFile();
     }
 

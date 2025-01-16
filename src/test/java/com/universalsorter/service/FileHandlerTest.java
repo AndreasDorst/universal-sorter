@@ -1,6 +1,7 @@
 package com.universalsorter.service;
 
 import com.universalsorter.model.Car;
+import com.universalsorter.model.Storable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,21 +22,21 @@ class FileHandlerTest {
         fileHandler = new FileHandler();
     }
 
-    @AfterEach
-    void tearDown() {
-        // Удаляем файл после теста
-        File file = new File(testFileName);
-        if (file.exists()) file.delete();
-    }
+//    @AfterEach
+//    void tearDown() {
+//        // Удаляем файл после теста
+//        File file = new File(testFileName);
+//        if (file.exists()) file.delete();
+//    }
 
     @Test
     void testWriteAndReadCarsFromFile() throws IOException {
         // Создаем список автомобилей
-        Car car1 = new Car("Tesla Model S", 1020.0, 2020);
-        Car car2 = new Car("BMW M3", 473.0, 2022);
-        Car car3 = new Car("Audi RS7", 591.0, 2021);
-        Car car4 = new Car("Mercedes-Benz E-Class", 362.0, 2023);
-        Car car5 = new Car("Ford Mustang", 450.0, 2021);
+        Car car1 = new Car.Builder().model("Tesla Model S").power(1020.0).yearOfProduction(2020).build();
+        Car car2 = new Car.Builder().model("BMW M3").power(473.0).yearOfProduction(2022).build();
+        Car car3 = new Car.Builder().model("Audi RS7").power(591.0).yearOfProduction(2021).build();
+        Car car4 = new Car.Builder().model("Mercedes-Benz E-Class").power(362.0).yearOfProduction(2023).build();
+        Car car5 = new Car.Builder().model("Ford Mustang").power(450.0).yearOfProduction(2021).build();
 
         List<Car> carsToWrite = List.of(car1, car2, car3, car4, car5);
 
@@ -45,7 +46,8 @@ class FileHandlerTest {
         }
 
         // Читаем из файла
-        List<Car> carsRead = fileHandler.readFromFile(testFileName, car1);
+        List<Car> carsRead = fileHandler.readFromFile(testFileName);
+
 
         // Проверяем, что количество считанных объектов совпадает с ожидаемым
         assertEquals(carsToWrite.size(), carsRead.size());

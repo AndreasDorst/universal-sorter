@@ -1,4 +1,5 @@
 package com.universalsorter.model;
+import java.util.Locale;
 
 public class RootVegetable implements Storable,Comparable {
 
@@ -65,11 +66,11 @@ public class RootVegetable implements Storable,Comparable {
 
     @Override
     public String serialize() {
-        return String.format("RootVegetable,%s,%.2f,%s", type, weight, color);
+        return String.format(Locale.US,"RootVegetable,%s,%.2f,%s", type, weight, color);
     }
 
     @Override
-    public Storable deserialize(String data) {
+    public RootVegetable deserialize(String data) {
         String[] parts = data.split(",");
         if (parts.length != 4 || !"RootVegetable".equals(parts[0])) {
             throw new IllegalArgumentException("Некорректные данные для десериализации RootVegetable: " + data);

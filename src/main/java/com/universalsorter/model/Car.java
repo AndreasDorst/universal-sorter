@@ -1,4 +1,5 @@
 package com.universalsorter.model;
+import java.util.Locale;
 
 public class Car implements Storable,Comparable {
 
@@ -66,11 +67,11 @@ public class Car implements Storable,Comparable {
 
     @Override
     public String serialize() {
-        return String.format("Car,%s,%.2f,%d", model, power, yearOfProduction);
+        return String.format(Locale.US,"Car,%s,%.2f,%d", model, power, yearOfProduction);
     }
 
     @Override
-    public Storable deserialize(String data) {
+    public Car deserialize(String data) {
         String[] parts = data.split(",");
         if (parts.length != 4 || !"Car".equals(parts[0])) {
             throw new IllegalArgumentException("Некорректные данные для десериализации Car: " + data);
