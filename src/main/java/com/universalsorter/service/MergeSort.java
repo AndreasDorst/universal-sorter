@@ -1,52 +1,70 @@
 package com.universalsorter.service;
 
+import com.universalsorter.model.Book;
+
+import java.util.Arrays;
+
 public class MergeSort {
-    public static void mergeSort(int[] inputArray) {
-        if (inputArray.length < 2) {
-            return;
+
+    public static <T extends Comparable<T>> void mergeSort(T[] array) {
+        if (array == null || array.length < 2) {
+            return; // Нет смысла сортировать массивы, содержащих меньше 2-ух элементов
         }
 
-        int middle = inputArray.length / 2;
-        int[] leftPart = new int[middle];
-        int[] rightPart = new int[inputArray.length - middle];
-
-        System.arraycopy(inputArray, 0, leftPart, 0, middle);
-        System.arraycopy(inputArray, middle, rightPart, 0, inputArray.length - middle);
-
-        mergeSort(leftPart);
-        mergeSort(rightPart);
-
-        merge(inputArray, leftPart, rightPart);
+        T[] tempArray = Arrays.copyOf(array, array.length); // Временный массив для объединения
+        mergeSortHelper(array, tempArray, 0, array.length - 1);
     }
 
-    public static void merge(int[] inputArray, int[] leftPart, int[] rightPart) {
-        int i = 0, j = 0, k = 0;
+    private static <T extends Comparable<T>> void mergeSortHelper(T[] array, T[] tempArray, int left, int right) {
+        if (left >= right) {
+            return; // Базовы вариант: один элемент
+        }
 
-        while (i < leftPart.length && j < rightPart.length) {
-            if (leftPart[i] <= rightPart[j]) {
-                inputArray[k++] = leftPart[i++];
+        int mid = left + (right - left) / 2;
+
+        // Рекурсивная сортировка левой и правой части
+        mergeSortHelper(array, tempArray, left, mid);
+        mergeSortHelper(array, tempArray, mid + 1, right);
+
+        // Соединение отсортированных частей
+        merge(array, tempArray, left, mid, right);
+    }
+
+    private static <T extends Comparable<T>> void merge(T[] array, T[] tempArray, int left, int mid, int right) {
+        // Копирование соответствующего подмассива во временный массив
+        for (int i = left; i <= right; i++) {
+            tempArray[i] = array[i];
+        }
+
+        int i = left;
+        int j = mid + 1;
+        int k = left;
+
+        // Объединение двух частей обратно в исходный массив
+        while (i <= mid && j <= right) {
+            if (tempArray[i].compareTo(tempArray[j]) <= 0) {
+                array[k++] = tempArray[i++];
+            } else {
+                array[k++] = tempArray[j++];
             }
-            else {
-                inputArray[k++] = rightPart[j++];
-            }
         }
 
-        while (i < leftPart.length) {
-            inputArray[k++] = leftPart[i++];
+        // Копирование оставшихся элементов из левой части (если есть)
+        while (i <= mid) {
+            array[k++] = tempArray[i++];
         }
 
-        while (j < rightPart.length) {
-            inputArray[k++] = rightPart[j++];
-        }
+        // Копировать правую часть нет смысла т.к. она уже на месте
     }
 
     public static void main(String[] args) {
-        int[] inputArray = {12, 5, 999, 350, 95};
+        // Пример использования
+        Integer[] numbers = {5, 2, 9, 1, 5, 6};
+        mergeSort(numbers);
+        System.out.println("Sorted numbers: " + Arrays.toString(numbers));
 
-        mergeSort(inputArray);
-
-        for (int numbers : inputArray) {
-            System.out.print(numbers + " ");
-        }
+        String[] words = {"banana", "apple", "cherry", "date"};
+        mergeSort(words);
+        System.out.println("Sorted words: " + Arrays.toString(words));
     }
 }
