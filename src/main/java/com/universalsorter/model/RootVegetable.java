@@ -1,7 +1,7 @@
 package com.universalsorter.model;
 import java.util.Locale;
 
-public class RootVegetable implements Storable,Comparable {
+public class RootVegetable implements Storable,Comparable{
 
     private final String type;
     private final Double weight;
@@ -19,7 +19,29 @@ public class RootVegetable implements Storable,Comparable {
 
     @Override
     public int compareTo(Object o) {
-        return 0;
+        if (o == null) {
+            throw new NullPointerException("Сравниваемый объект не может быть null");
+        }
+        if (!(o instanceof RootVegetable)) {
+            throw new ClassCastException("Объект должен быть типа RootVegetable");
+        }
+
+        RootVegetable other = (RootVegetable) o;
+
+        // Сравнение по type (тип корнеплода)
+        int typeComparison = this.type.compareTo(other.type);
+        if (typeComparison != 0) {
+            return typeComparison;
+        }
+
+        // Если типы одинаковые, сравниваем по weight (вес)
+        int weightComparison = this.weight.compareTo(other.weight);
+        if (weightComparison != 0) {
+            return weightComparison;
+        }
+
+        // Если вес одинаковый, сравниваем по color (цвет)
+        return this.color.compareTo(other.color);
     }
 
 
@@ -28,6 +50,15 @@ public class RootVegetable implements Storable,Comparable {
         private Double weight;
         private String color;
 
+        private void validate(){
+            final double MINIMUM_WEIGHT = 0; // минимальный вес корнеплода
+            final double MAXIMUM_WEIGHT = 10; // максимальный вес корнеплода
+            final String ERROR_MESSAGE = "Введены некорректные данные"; // сообщение об ошибке
+            if (type == null || color == null || type.isEmpty() || color.isEmpty() ||
+                    weight <= MINIMUM_WEIGHT || weight > MAXIMUM_WEIGHT) {
+                throw new IllegalStateException(ERROR_MESSAGE);
+            }
+        }
 
         public RootVegetable.Builder type(String type) {
             this.type = type;
@@ -45,9 +76,7 @@ public class RootVegetable implements Storable,Comparable {
         }
 
         public RootVegetable build() {
-            if (type == null || weight <= 0 || color == null) {
-                throw new IllegalStateException("Введены некорректные данные");
-            }
+            validate();
             return new RootVegetable(type, weight, color);
         }
     }
@@ -75,7 +104,11 @@ public class RootVegetable implements Storable,Comparable {
         if (parts.length != 4 || !"RootVegetable".equals(parts[0])) {
             throw new IllegalArgumentException("Некорректные данные для десериализации RootVegetable: " + data);
         }
-        return new RootVegetable(parts[1], Double.parseDouble(parts[2]), parts[3]);
+        return RootVegetable.builder()
+                .type(parts[1])
+                .weight(Double.valueOf(parts[2]))
+                .color(parts[3])
+                .build();
     }
 
     @Override

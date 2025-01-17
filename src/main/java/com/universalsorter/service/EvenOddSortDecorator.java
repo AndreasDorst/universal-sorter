@@ -1,5 +1,4 @@
 package com.universalsorter.service;
-
 import com.universalsorter.model.Book;
 import com.universalsorter.model.Car;
 import com.universalsorter.model.RootVegetable;

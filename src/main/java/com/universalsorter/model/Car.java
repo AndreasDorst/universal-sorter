@@ -1,7 +1,7 @@
 package com.universalsorter.model;
 import java.util.Locale;
 
-public class Car implements Storable,Comparable {
+public class Car implements Storable,Comparable{
 
     private final String model;
     private final Double power;
@@ -14,13 +14,36 @@ public class Car implements Storable,Comparable {
     }
 
 
-    public static Book.Builder builder() {
-        return new Book.Builder();
+    public static Car.Builder builder() {
+        return new Car.Builder();
     }
 
     @Override
     public int compareTo(Object o) {
-        return 0;
+            if (o == null) {
+                throw new NullPointerException("Сравниваемый объект не может быть null");
+            }
+            if (!(o instanceof Car)) {
+                throw new ClassCastException("Объект должен быть типа Car");
+            }
+
+            Car car = (Car) o;
+
+            // Сравнение по model (модель автомобиля)
+            int modelComparison = this.model.compareTo(car.model);
+            if (modelComparison != 0) {
+                return modelComparison;
+            }
+
+            // Если модели одинаковые, сравниваем по power (мощность)
+            int powerComparison = this.power.compareTo(car.power);
+            if (powerComparison != 0) {
+                return powerComparison;
+            }
+
+            // Если мощность одинаковая, сравниваем по yearOfProduction (год выпуска)
+            return this.yearOfProduction.compareTo(car.yearOfProduction);
+
     }
 
 
@@ -76,7 +99,11 @@ public class Car implements Storable,Comparable {
         if (parts.length != 4 || !"Car".equals(parts[0])) {
             throw new IllegalArgumentException("Некорректные данные для десериализации Car: " + data);
         }
-        return new Car(parts[1], Double.parseDouble(parts[2]), Integer.parseInt(parts[3]));
+        return Car.builder()
+                .model(parts[1])
+                .power(Double.valueOf(parts[2]))
+                .yearOfProduction(Integer.valueOf(parts[3]))
+                .build();
     }
 
     @Override
