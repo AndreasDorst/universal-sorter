@@ -147,7 +147,7 @@ public class ConsoleMenu {
                 System.out.println("Размер массива: " + arrayManager.getArraySize()+"\n");
                 break;
             case 2:
-                System.out.println("Содержимое массива: \n\n" + arrayManager.getArrayContents());
+                System.out.println(arrayManager.getArrayContents());
                 break;
             case 3:
                 printArrayElement();
