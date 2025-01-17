@@ -74,8 +74,7 @@ public class FileHandler {
 //        }
 
 
-    public <T extends Storable>List<T> readFromFile(String fileName) throws IOException {
-        List<Storable> objects = new ArrayList<>();
+
 
     public <T extends Storable>List<T> readFromFile(String fileName) throws IOException {
         List<Storable> objects = new ArrayList<>();
@@ -105,7 +104,7 @@ public class FileHandler {
         } catch (IllegalArgumentException e) {
             throw new IOException("Ошибка при чтении данных из файла: " + e.getMessage(), e);
         }
-        return objects;
+        return (List<T>) objects;
     }
 
 }
