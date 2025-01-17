@@ -35,7 +35,7 @@ public class Book implements Storable,Comparable<Book>, Comparator<Book> {
      * @param author - автор
      * @param title - название
      * @param numberOfPages - кол-во страниц
-     * @see Book#Book(String , String , Integer )
+     * @see Book#Book(String author, String title, Integer numberOfPages)
      */
     private Book(String author, String title, Integer numberOfPages) {
         this.author = author;
@@ -46,7 +46,7 @@ public class Book implements Storable,Comparable<Book>, Comparator<Book> {
 
     /**
      * Метод для создания объекта Book {@link Book}
-     * @return возвращает название производителя
+     * @return возвращает объект класса {@link Book}
      */
     public static Book.Builder builder() {
         return new Book.Builder();
@@ -56,6 +56,7 @@ public class Book implements Storable,Comparable<Book>, Comparator<Book> {
      *  Переопределенный метод интерфейса Comparable {@link Comparable}
      * @param book объект для сравнения
      * @return отрицательное целое число, ноль или положительное целое число, поскольку этот объект меньше, равен или больше указанного объекта
+     * @throws NullPointerException  если в параметры передается null
      */
     @Override
     public int compareTo(Book book) {
@@ -90,9 +91,13 @@ public class Book implements Storable,Comparable<Book>, Comparator<Book> {
      * @param book1 первая книга для сравнения.
      * @param book2 вторая книга для сравнения.
      * @return отрицательное целое число, ноль или положительное целое число, поскольку первый аргумент меньше, равен или больше второго.
+     * @throws NullPointerException  если в параметры передается null
      */
     @Override
     public int compare(Book book1, Book book2) {
+        if (book1 == null || book2 == null) {
+            throw new NullPointerException("Сравниваемые объекты не могут быть null");
+        }
         int authorComparison = book1.getAuthor().compareTo(book2.getAuthor());
         if (authorComparison != 0) {
             return authorComparison;
@@ -148,35 +153,42 @@ public class Book implements Storable,Comparable<Book>, Comparator<Book> {
 
 
     /**
-     * Функция получения значения поля {@link Book#author}
-     * @return возвращает имя автора книги.
+     * Метод для получения значения поля {@link Book#author}
+     * @return возвращает имя автора книги {@link String}.
      */
     public String getAuthor() {
         return author;
     }
 
     /**
-     * Функция получения значения поля {@link Book#title}
-     * @return возвращает название книги.
+     * Метод для получения значения поля {@link Book#title}
+     * @return возвращает название книги {@link String}.
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * Функция получения значения поля {@link Book#numberOfPages}
-     * @return возвращает кол-во страниц в книге
+     * Метод для получения значения поля {@link Book#numberOfPages}
+     * @return возвращает кол-во страниц в книге {@link Integer}
      */
     public Integer getNumberOfPages() {
         return numberOfPages;
     }
 
-
+    /**
+     *  Переопределенный метод интерфейса {@link Storable} для сохранения объектов класса {@link Book}.
+     * @return строковое представление {@link String} сохраняемого объекта {@link Book}
+     */
     @Override
     public String serialize() {
         return String.format(Locale.US,"Book,%s,%s,%d", author, title, numberOfPages);
     }
 
+    /**
+     *  Переопределенный метод интерфейса {@link Storable} восстановления сохраненного объекта класса {@link Book}.
+     * @return объект класса {@link Book}
+     */
     @Override
     public Book deserialize(String data) {
         String[] parts = data.split(",");
@@ -193,7 +205,7 @@ public class Book implements Storable,Comparable<Book>, Comparator<Book> {
 
 
     /**
-     * Указывает, равен ли какой-либо другой объект этому компаратору. Этот метод должен подчиняться общему договору {@link Object#equals(Object)}.
+     * Указывает, равен ли какой-либо другой объект этому объекту, класс объектов {@link Book}. Этот метод должен подчиняться общему договору {@link Object#equals(Object)}.
      * @param o объект для сравнения.
      * @return {@code true} только если указанный объект также {@link Book} и имеет одинаковые поля.
      */
