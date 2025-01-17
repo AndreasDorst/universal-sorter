@@ -22,12 +22,12 @@ class FileHandlerTest {
         fileHandler = new FileHandler();
     }
 
-//    @AfterEach
-//    void tearDown() {
-//        // Удаляем файл после теста
-//        File file = new File(testFileName);
-//        if (file.exists()) file.delete();
-//    }
+    @AfterEach
+    void tearDown() {
+        // Удаляем файл после теста
+        File file = new File(testFileName);
+        if (file.exists()) file.delete();
+    }
 
     @Test
     void testWriteAndReadCarsFromFile() throws IOException {
