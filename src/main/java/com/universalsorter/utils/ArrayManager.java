@@ -8,14 +8,22 @@ import com.universalsorter.repository.RootVegetableRepository;
 import com.universalsorter.service.FileHandler;
 import java.io.IOException;
 import java.util.*;
+import java.util.Optional;
+import java.util.Random;
+import java.util.Arrays;
+import java.util.Collections;
+
+
 
 public class ArrayManager {
-    private Storable[] array;
+    private Comparable[] array;
     private final BookRepository bookRepository = new BookRepository();
     private final CarRepository carRepository = new CarRepository();
     private final RootVegetableRepository rootVegetableRepository = new RootVegetableRepository();
     private final FileHandler fileHandler = new FileHandler();
-    private final String fileForWork = "file.txt";
+    private final String fileForWrite = "fileWrite.txt";
+    private final String fileForRead = "fileRead.txt";
+    private final String messageArrayWasNotCreated="Массив не создан. Сначала создайте массив.\n";
 
 
     public void createNewArray(String size) {
@@ -28,40 +36,14 @@ public class ArrayManager {
             return;
         }
 
-        this.array = new Storable[selection];
+        this.array = new Comparable[selection];
         System.out.println("Массив создан. Размер: " + size + "\n");
 
-
-import java.util.Optional;
-import java.util.Random;
-import java.util.Arrays;
-import java.util.Collections;
-
-public class ArrayManager {
-    private Comparable[] array;
-    private final BookRepository bookRepository = new BookRepository();
-    private final CarRepository carRepository = new CarRepository();
-    private final RootVegetableRepository rootVegetableRepository = new RootVegetableRepository();
-
-
-    public void createNewArray(String size) {
-        int selection=0;
-        if (size.matches("^0|[1-9][0-9]*$")) {
-            selection=Integer.parseInt(size);
-
-        } else {
-            System.out.println("\nНеправильный ввод. Пожалуйста, введите корректное значение.\n");return;
-        }
-
-        this.array = new Comparable[selection];
-        System.out.println("Массив создан. Размер: " + size+"\n");
     }
 
     // Загрузка случайных данных в массив
     public void loadRandomData() {
-        if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
-        }
+        isArrayCreated();
         Random random = new Random();
         int book = 0;
         int car = 0;
@@ -98,56 +80,74 @@ public class ArrayManager {
                 return;
 
             }
-
-
         }
         System.out.println("Массив заполнен случайными данными.\n");
     }
 
 
     public void addElement() {
-        if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
+        isArrayCreated();
             //логика добавления одиночного кастомного обьекта
-        }
+
     }
 
     public void saveToFile() throws IOException {
-        for (Storable st : array) {
-            fileHandler.writeToFile(fileForWork, st);
+        for (Comparable st : array) {
+            fileHandler.writeToFile(fileForWrite, (Storable) st);
         }
+        System.out.println("\nДанные из массива сохранены в файл.\n");
+    }
 
 
     public void sortArray() {
-        if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
-        }
-        //логика сортировки
-        System.out.println("Массив отсортирован.\n");
+        isArrayCreated();
+        Arrays.sort(array, (Comparator<Object>) (o1, o2) -> {
+            // Сравнение по типу объекта
+            String type1 = o1.getClass().getSimpleName();
+            String type2 = o2.getClass().getSimpleName();
+            int typeComparison = type1.compareTo(type2);
+
+            if (typeComparison != 0) {
+                return typeComparison;
+            }
+
+            // Если типы одинаковые, используем compareTo
+            if (o1 instanceof Comparable && o2 instanceof Comparable) {
+                return ((Comparable) o1).compareTo(o2);
+            }
+
+            throw new IllegalArgumentException("Объекты не поддерживают сравнение");
+        });
+
+        System.out.println("\nМассив отсортирован.\n");
     }
 
     public void shuffleArray() {
-        if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
+        isArrayCreated();
+        Random random = new Random();
+        for (int i = array.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            Comparable temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
         }
-        Collections.shuffle(Arrays.asList(array));
         System.out.println("\nМассив перемешан.\n");
     }
 
     public int getArraySize() {
         if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
+            throw new IllegalStateException(messageArrayWasNotCreated);
         }
         return array.length;
     }
 
+
     public String getArrayContents() {
-        if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
-        }
+        isArrayCreated();
         StringBuilder sb = new StringBuilder();
       
-        for (Storable element : array) {
+        for (Comparable element : array) {
+
             if (element == null) {
                 sb.append("\nПустой слот.\n");
             } else {
@@ -160,14 +160,12 @@ public class ArrayManager {
     }
 
     public void getElement(String index) {
-        if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
-        }
+        isArrayCreated();
         if (index.matches("^(0|[1-9][0-9]*)$")) {
             int element = Integer.parseInt(index);
             if (element <= array.length && element != 0) {
 
-                Optional<Comparable> temp = Optional.ofNullable((Comparable) array[element - 1]);
+                Optional<Comparable> temp = Optional.ofNullable(array[element - 1]);
 
                 temp.ifPresentOrElse(v -> System.out.println(v), () -> System.out.println("Пустой слот.\n"));
             } else {
@@ -177,15 +175,19 @@ public class ArrayManager {
     }
 
   //загрузка данных из файла с массив.
-    public void downloadDataFromFile() throws IOException {
-        if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
-        }
 
-        List<Storable> objects = fileHandler.readFromFile("file.txt");
+    public void downloadDataFromFile() throws IOException{
+        isArrayCreated();
+        List<Storable> objects = fileHandler.readFromFile(fileForRead);
         for(int i=0;i<objects.size()&&i<array.length;i++){
-            array[i]= objects.get(i);
+            array[i]= (Comparable) objects.get(i);
         }
 
+
+    }
+    private void isArrayCreated(){
+        if (array == null) {
+            throw new IllegalStateException(messageArrayWasNotCreated);
+        }
     }
 }

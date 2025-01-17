@@ -128,7 +128,7 @@ public class Car implements Storable,Comparable<Car>, Comparator<Car> {
             final String ERROR_MESSAGE = "Введены некорректные данные"; // сообщение об ошибке
 
             if (model == null || model.isEmpty() || power <= MINIMUM_POWER || power > MAXIMUM_POWER ||
-            yearOfProduction < MIN_YEAR_OF_PRODUCTION || yearOfProduction > MAX_YEAR_OF_PRODUCTION) {
+                    yearOfProduction < MIN_YEAR_OF_PRODUCTION || yearOfProduction > MAX_YEAR_OF_PRODUCTION) {
                 throw new IllegalStateException(ERROR_MESSAGE);
             }
 
