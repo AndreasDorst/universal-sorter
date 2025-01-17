@@ -15,6 +15,7 @@ public class ArrayManager {
     private final FileHandler fileHandler = new FileHandler();
     private final String fileForWrite = "fileWrite.txt";
     private final String fileForRead = "fileRead.txt";
+    private final String messageArrayWasNotCreated="Массив не создан. Сначала создайте массив.\n";
 
 
     public void createNewArray(String size) {
@@ -30,14 +31,11 @@ public class ArrayManager {
         this.array = new Comparable[selection];
         System.out.println("Массив создан. Размер: " + size + "\n");
 
-
     }
 
     // Загрузка случайных данных в массив
     public void loadRandomData() {
-        if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
-        }
+        isArrayCreated();
         Random random = new Random();
         int book = 0;
         int car = 0;
@@ -45,7 +43,7 @@ public class ArrayManager {
         for (int i = 0; i < array.length; i++) {
             switch (random.nextInt(3)) {
                 case 0:
-                    array[i] = (Comparable) bookRepository.getBook(book);
+                    array[i] = bookRepository.getBook(book);
                     book++;
                 
                     if (bookRepository.getBook(book) == null) {
@@ -53,7 +51,7 @@ public class ArrayManager {
                     }
                     break;
                 case 1:
-                    array[i] = (Comparable) carRepository.getCar(car);
+                    array[i] = carRepository.getCar(car);
                     car++;
                
                     if (carRepository.getCar(car) == null) {
@@ -61,7 +59,7 @@ public class ArrayManager {
                     }
                     break;
                 case 2:
-                    array[i] = (Comparable) rootVegetableRepository.getRootVegetable(root);
+                    array[i] = rootVegetableRepository.getRootVegetable(root);
                     root++;
 
                     if (rootVegetableRepository.getRootVegetable(root) == null) {
@@ -72,55 +70,63 @@ public class ArrayManager {
             if ((book + car + root) >= (bookRepository.getSizeBookList() + carRepository.getSizeCarList() + rootVegetableRepository.getSizeRootList())) {
                 System.out.println("Массив частично заполнен случайными данными.\n");
                 return;
-
             }
-
-
         }
         System.out.println("Массив заполнен случайными данными.\n");
     }
 
 
     public void addElement() {
-        if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
+        isArrayCreated();
             //логика добавления одиночного кастомного обьекта
-        }
+
     }
 
     public void saveToFile() throws IOException {
         for (Comparable st : array) {
             fileHandler.writeToFile(fileForWrite, (Storable) st);
         }
+        System.out.println("\nДанные из массива сохранены в файл.\n");
     }
 
     public void sortArray() {
-        if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
-        }
-        //логика сортировки
-        System.out.println("Массив отсортирован.\n");
+        isArrayCreated();
+        Arrays.sort(array, (Comparator<Object>) (o1, o2) -> {
+            // Сравнение по типу объекта
+            String type1 = o1.getClass().getSimpleName();
+            String type2 = o2.getClass().getSimpleName();
+            int typeComparison = type1.compareTo(type2);
+
+            if (typeComparison != 0) {
+                return typeComparison;
+            }
+
+            // Если типы одинаковые, используем compareTo
+            if (o1 instanceof Comparable && o2 instanceof Comparable) {
+                return ((Comparable) o1).compareTo(o2);
+            }
+
+            throw new IllegalArgumentException("Объекты не поддерживают сравнение");
+        });
+
+        System.out.println("\nМассив отсортирован.\n");
     }
 
     public void shuffleArray() {
-        if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
-        }
+        isArrayCreated();
         Collections.shuffle(Arrays.asList(array));
         System.out.println("\nМассив перемешан.\n");
     }
 
     public int getArraySize() {
         if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
+            throw new IllegalStateException(messageArrayWasNotCreated);
         }
         return array.length;
     }
 
     public String getArrayContents() {
-        if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
-        }
+        isArrayCreated();
         StringBuilder sb = new StringBuilder();
       
         for (Comparable element : array) {
@@ -136,9 +142,7 @@ public class ArrayManager {
     }
 
     public void getElement(String index) {
-        if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
-        }
+        isArrayCreated();
         if (index.matches("^(0|[1-9][0-9]*)$")) {
             int element = Integer.parseInt(index);
             if (element <= array.length && element != 0) {
@@ -153,15 +157,18 @@ public class ArrayManager {
     }
 
   //загрузка данных из файла с массив.
-    public void downloadDataFromFile() throws IOException, InstantiationException, IllegalAccessException {
-        if (array == null) {
-            throw new IllegalStateException("Массив не создан. Сначала создайте массив.\n");
-        }
-
+    public void downloadDataFromFile() throws IOException{
+        isArrayCreated();
         List<Storable> objects = fileHandler.readFromFile(fileForRead);
         for(int i=0;i<objects.size()&&i<array.length;i++){
             array[i]= (Comparable) objects.get(i);
         }
+        System.out.println("\nДанные из файла загружены в массив\n");
 
+    }
+    private void isArrayCreated(){
+        if (array == null) {
+            throw new IllegalStateException(messageArrayWasNotCreated);
+        }
     }
 }

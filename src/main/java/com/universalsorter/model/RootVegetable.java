@@ -19,7 +19,29 @@ public class RootVegetable implements Storable,Comparable{
 
     @Override
     public int compareTo(Object o) {
-        return 0;
+        if (o == null) {
+            throw new NullPointerException("Сравниваемый объект не может быть null");
+        }
+        if (!(o instanceof RootVegetable)) {
+            throw new ClassCastException("Объект должен быть типа RootVegetable");
+        }
+
+        RootVegetable other = (RootVegetable) o;
+
+        // Сравнение по type (тип корнеплода)
+        int typeComparison = this.type.compareTo(other.type);
+        if (typeComparison != 0) {
+            return typeComparison;
+        }
+
+        // Если типы одинаковые, сравниваем по weight (вес)
+        int weightComparison = this.weight.compareTo(other.weight);
+        if (weightComparison != 0) {
+            return weightComparison;
+        }
+
+        // Если вес одинаковый, сравниваем по color (цвет)
+        return this.color.compareTo(other.color);
     }
 
 

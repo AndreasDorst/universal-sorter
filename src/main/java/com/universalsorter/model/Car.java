@@ -20,7 +20,30 @@ public class Car implements Storable,Comparable{
 
     @Override
     public int compareTo(Object o) {
-        return 0;
+            if (o == null) {
+                throw new NullPointerException("Сравниваемый объект не может быть null");
+            }
+            if (!(o instanceof Car)) {
+                throw new ClassCastException("Объект должен быть типа Car");
+            }
+
+            Car car = (Car) o;
+
+            // Сравнение по model (модель автомобиля)
+            int modelComparison = this.model.compareTo(car.model);
+            if (modelComparison != 0) {
+                return modelComparison;
+            }
+
+            // Если модели одинаковые, сравниваем по power (мощность)
+            int powerComparison = this.power.compareTo(car.power);
+            if (powerComparison != 0) {
+                return powerComparison;
+            }
+
+            // Если мощность одинаковая, сравниваем по yearOfProduction (год выпуска)
+            return this.yearOfProduction.compareTo(car.yearOfProduction);
+
     }
 
 

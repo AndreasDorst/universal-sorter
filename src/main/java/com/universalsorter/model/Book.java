@@ -23,8 +23,31 @@ public class Book implements Storable,Comparable {
 
     @Override
     public int compareTo(Object o) {
-        return 0;
+        if (o == null) {
+            throw new NullPointerException("Сравниваемый объект не может быть null");
+        }
+        if (!(o instanceof Book)) {
+            throw new ClassCastException("Объект должен быть типа Book");
+        }
+
+        Book book = (Book) o;
+
+        // Сравнение по автору
+        int authorComparison = this.author.compareTo(book.author);
+        if (authorComparison != 0) {
+            return authorComparison;
+        }
+
+        // Если авторы одинаковые, сравниваем по названию книги
+        int titleComparison = this.title.compareTo(book.title);
+        if (titleComparison != 0) {
+            return titleComparison;
+        }
+
+        // Если названия одинаковые, сравниваем по количеству страниц
+        return this.numberOfPages.compareTo(book.numberOfPages);
     }
+
 
 
     public static class Builder {
