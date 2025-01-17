@@ -5,7 +5,7 @@ import java.util.Objects;
 
 /**
  * Класс машина {@link Car} с полями <b>author</b> and <b>title</b> and <b>numberOfPages</b>
- * {@code @autor} Аднрей, Евгений, Александр
+ * {@code @autor} EvgenSharapov, Andreas, Lemonsqz, Aleksandr Bogin
  * @version 1.1
  */
 public class Car implements Storable,Comparable<Car>, Comparator<Car> {
