@@ -1,0 +1,111 @@
+Book,Лев Толстой,Война и мир,550
+Book,Жюль Верн,Таинственный остров,340
+Car,Tesla Model S,1020.00,2020
+RootVegetable,Свёкла,225.00,Фиолетовый
+RootVegetable,Морковь,75.00,Оранжевый
+Book,Фёдор Достоевский,Преступление и наказание,287
+RootVegetable,Репа,175.00,Белый
+Car,BMW M3,473.00,2022
+Car,Audi RS7,591.00,2021
+Car,Mercedes-Benz E-Class,362.00,2023
+Car,Ford Mustang,450.00,2021
+Car,KIA Optima,150.00,2021
+RootVegetable,Редис,22.00,Фиолетовый
+Book,Майн Рид,Всадник без головы,258
+Car,Porsche 911,640.00,2023
+RootVegetable,Картофель,150.00,Коричневый
+RootVegetable,Имбирь,100.00,Коричневый
+RootVegetable,Батат,200.00,Розовый
+RootVegetable,Пастернак,120.00,Бежевый
+Car,Toyota Supra,382.00,2022
+Book,Николай Гоголь,Мёртвые Души,411
+Car,Chevrolet Corvette,495.00,2023
+Car,Nissan GT-R,565.00,2021
+Car,Lamborghini Aventador,770.00,2022
+Car,Ferrari 488 GTB,661.00,2021
+Book,Война и мир,Лев Толстой,550
+Book,Всадник без головы,Майн Рид,258
+Book,Преступление и наказание,Фёдор Достоевский,287
+Book,Таинственный остров,Жюль Верн,340
+Car,Audi RS7,591.00,2021
+Car,BMW M3,473.00,2022
+Car,Ford Mustang,450.00,2021
+Car,KIA Optima,150.00,2021
+Car,Mercedes-Benz E-Class,362.00,2023
+Car,Porsche 911,640.00,2023
+Car,Tesla Model S,1020.00,2020
+Car,Toyota Supra,382.00,2022
+RootVegetable,Батат,200.00,Розовый
+RootVegetable,Имбирь,100.00,Коричневый
+RootVegetable,Картофель,150.00,Коричневый
+RootVegetable,Морковь,75.00,Оранжевый
+RootVegetable,Пастернак,120.00,Бежевый
+RootVegetable,Редис,22.00,Фиолетовый
+RootVegetable,Репа,175.00,Белый
+RootVegetable,Свёкла,225.00,Фиолетовый
+Car,Tesla Model S,1020.00,2020
+Book,Лев Толстой,Война и мир,550
+Car,BMW M3,473.00,2022
+Car,Audi RS7,591.00,2021
+Car,Mercedes-Benz E-Class,362.00,2023
+RootVegetable,Свёкла,225.00,Фиолетовый
+Car,Ford Mustang,450.00,2021
+Book,Жюль Верн,Таинственный остров,340
+Book,Фёдор Достоевский,Преступление и наказание,287
+Book,Майн Рид,Всадник без головы,258
+Car,KIA Optima,150.00,2021
+RootVegetable,Морковь,75.00,Оранжевый
+Book,Николай Гоголь,Мёртвые Души,411
+Car,Porsche 911,640.00,2023
+RootVegetable,Репа,175.00,Белый
+Book,Жюль Верн,Дети капитана Гранта,381
+Car,Toyota Supra,382.00,2022
+Book,Лев Толстой,Анна Каренина,864
+Book,Джордж Оруэлл,1984,328
+Book,Михаил Булгаков,Мастер и Маргарита,384
+Car,Chevrolet Corvette,495.00,2023
+Book,Джоан Роулинг,Гарри Поттер и философский камень,320
+Car,Nissan GT-R,565.00,2021
+Car,Lamborghini Aventador,770.00,2022
+Car,Ferrari 488 GTB,661.00,2021
+RootVegetable,Редис,22.00,Фиолетовый
+Car,Volkswagen Golf GTI,245.00,2022
+RootVegetable,Картофель,150.00,Коричневый
+Book,Джеймс Джойс,Улисс,732
+RootVegetable,Имбирь,100.00,Коричневый
+Car,Hyundai Sonata,180.00,2021
+Car,Mazda CX-5,187.00,2023
+Car,Subaru WRX STI,310.00,2022
+Book,Эрих Мария Ремарк,Три товарища,448
+Book,Антуан де Сент-Экзюпери,Маленький принц,96
+Car,Lexus LS 500,416.00,2023
+Car,Jaguar F-Type,444.00,2021
+Car,McLaren 720S,710.00,2022
+Book,Михаил Шолохов,Тихий Дон,1600
+RootVegetable,Батат,200.00,Розовый
+RootVegetable,Пастернак,120.00,Бежевый
+Car,Bugatti Chiron,1500.00,2023
+Book,Олдос Хаксли,О дивный новый мир,288
+Book,Габриэль Гарсиа Маркес,Сто лет одиночества,416
+Car,Aston Martin DB11,630.00,2021
+Car,Rolls-Royce Phantom,563.00,2023
+RootVegetable,Хрен,50.00,Белый
+Car,Honda Civic Type R,320.00,2022
+Car,Volvo XC90,316.00,2021
+Book,Владимир Набоков,Лолита,336
+Car,Dodge Challenger,717.00,2023
+Car,Alfa Romeo Giulia,505.00,2022
+Book,Фёдор Достоевский,Братья Карамазовы,824
+Car,Maserati Quattroporte,580.00,2021
+Car,Genesis G90,365.00,2023
+RootVegetable,Топинамбур,130.00,Коричневый
+Book,Александр Дюма,Граф Монте-Кристо,1312
+RootVegetable,Козелец,90.00,Белый
+RootVegetable,Сельдерей,110.00,Белый
+Car,Infiniti Q50,300.00,2022
+RootVegetable,Лук репчатый,70.00,Коричневый
+Car,Land Rover Defender,395.00,2021
+Book,Мигель де Сервантес,Дон Кихот,1072
+Book,Иоганн Вольфганг фон Гёте,Фауст,480
+Car,Jeep Wrangler,285.00,2023
+Book,Оскар Уайльд,Портрет Дориана Грея,254

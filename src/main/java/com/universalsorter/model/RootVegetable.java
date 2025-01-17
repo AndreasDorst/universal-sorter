@@ -28,18 +28,6 @@ public class RootVegetable implements Storable,Comparable {
         private Double weight;
         private String color;
 
-        private void validate(){
-            final double MINIMUM_WEIGHT = 0; // минимальный вес корнеплода
-            final double MAXIMUM_WEIGHT = 10; // максимальный вес корнеплода
-            final String ERROR_MESSAGE = "Введены некорректные данные"; // сообщение об ошибке
-
-            if (type == null || color == null || type.isEmpty() || color.isEmpty() ||
-            weight <= MINIMUM_WEIGHT || weight > MAXIMUM_WEIGHT) {
-                throw new IllegalStateException(ERROR_MESSAGE);
-            }
-
-        }
-
 
         public RootVegetable.Builder type(String type) {
             this.type = type;
@@ -57,7 +45,9 @@ public class RootVegetable implements Storable,Comparable {
         }
 
         public RootVegetable build() {
-            validate();
+            if (type == null || weight <= 0 || color == null) {
+                throw new IllegalStateException("Введены некорректные данные");
+            }
             return new RootVegetable(type, weight, color);
         }
     }
