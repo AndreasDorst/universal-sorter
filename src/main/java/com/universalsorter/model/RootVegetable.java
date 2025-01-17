@@ -107,7 +107,7 @@ public class RootVegetable implements Storable,Comparable<RootVegetable>, Compar
 
         private void validate(){
             final double MINIMUM_WEIGHT = 0; // минимальный вес корнеплода
-            final double MAXIMUM_WEIGHT = 10; // максимальный вес корнеплода
+            final double MAXIMUM_WEIGHT = 10000; // максимальный вес корнеплода
             final String ERROR_MESSAGE = "Введены некорректные данные"; // сообщение об ошибке
             if (type == null || color == null || type.isEmpty() || color.isEmpty() ||
                     weight <= MINIMUM_WEIGHT || weight > MAXIMUM_WEIGHT) {
