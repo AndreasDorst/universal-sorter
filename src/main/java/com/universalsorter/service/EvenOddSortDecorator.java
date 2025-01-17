@@ -6,14 +6,14 @@ import com.universalsorter.model.RootVegetable;
 import java.util.*;
 
 /**
- * Класс используется для быстрой сортировки  .
+ * Класс используется для быстрой сортировки.
  * {@code @autor} Богинь Александр
  * @version 1.0
  */
 public class EvenOddSortDecorator {
 
     /**
-     * Метод получает <code>List<Car> cars</code>
+     * Метод получает <code>List({@link Car})</code>
      * и возвращает отсортированную коллекцию машин
      * (сортируются машины с четным годом выпуска, машины с нечетным остаются в той же позиции).
      *
@@ -22,7 +22,7 @@ public class EvenOddSortDecorator {
      */
 
 
-    public static void sortCarsByYearOfProduction(List<Car> listCars) {
+    private static void sortCarsByYearOfProduction(List<Car> listCars) {
         List<Car> evenCars = new ArrayList<>();
         // Собираем коллекцию Car с четным значением weight
         for (Car car : listCars) {
@@ -44,15 +44,15 @@ public class EvenOddSortDecorator {
     }
 
     /**
-     * Метод получает <code>List<RootVegetable> rootVegetableList</code>
+     * Метод получает <code>List({@link RootVegetable})</code>
      * и возвращает отсортированную коллекцию rootVegetable
      * (сортируются rootVegetable с четным значением веса, rootVegetable с нечетным остаются в той же позиции).
      *
-     * @param rootVegetableList Коллекция машин.
+     * @param rootVegetableList Коллекция корнеплодов.
      *
      */
 
-    public static void sortRootVegetables(List<RootVegetable> rootVegetableList) {
+    private static void sortRootVegetables(List<RootVegetable> rootVegetableList) {
         List<RootVegetable> evenWeightVegetables = new ArrayList<>();
 
 // Собираем коллекцию RootVegetable с четным значением weight
@@ -75,15 +75,15 @@ public class EvenOddSortDecorator {
     }
 
     /**
-     * Метод получает <code>List<Book> bookList</code>
+     * Метод получает <code>List({@link Book})</code>
      * и возвращает отсортированную коллекцию книг
      * (сортируются книги с четным колличеством страниц, книги с нечетным остаются в той же позиции).
      *
-     * @param bookList Коллекция машин.
+     * @param bookList Коллекция книг.
      *
      */
 
-    public static void sortBooks(List<Book> bookList) {
+    private static void sortBooks(List<Book> bookList) {
         List<Book> evenPageBooks = new ArrayList<>();
 
 // // Собираем коллекцию Book с четным значением numberOfPages
@@ -111,6 +111,34 @@ public class EvenOddSortDecorator {
                 bookList.set(i, evenPageBooks.get(evenIndex++));
             }
         }
+    }
+
+    /**
+     * Метод получает <code>List({@link Car})</code> или <code>List({@link RootVegetable})</code> или <code>List({@link Book})</code>
+     * и возвращает отсортированную коллекцию
+     * (сортируются книги с четным колличеством страниц, книги с нечетным остаются в той же позиции).
+     * (сортируются rootVegetable с четным значением веса, rootVegetable с нечетным остаются в той же позиции).
+     * (сортируются машины с четным годом выпуска, машины с нечетным остаются в той же позиции).
+     *
+     * @param list Коллекция книг.
+     *
+     */
+    public static void sortEvenOdd(List<?> list) {
+
+        if (!list.isEmpty()){
+            if(list.getFirst() instanceof RootVegetable){
+            sortRootVegetables((List<RootVegetable>) list);
+            } else if (list.getFirst() instanceof Book){
+                sortBooks((List<Book>) list);
+            } else if (list.getFirst() instanceof Car) {
+                sortCarsByYearOfProduction((List<Car>) list);
+            } else {
+                System.out.println("Коллекция объектов не соответствующего типа");
+            }
+        } else {
+            System.out.println("Коллекция пустая");
+        }
+
     }
 
 }
