@@ -4,7 +4,6 @@ import com.universalsorter.model.Book;
 import com.universalsorter.model.Car;
 import com.universalsorter.model.RootVegetable;
 import com.universalsorter.model.Storable;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,17 +39,43 @@ public class FileHandler {
      * @throws IOException Если произошла ошибка при чтении.
      */
 
-    public <T extends Storable> List<T> readFromFile(String fileName, T type) throws IOException {
-        List<T> objects = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                T obj = (T) type.deserialize(line);
-                objects.add(obj);
-            }
-        }
-        return objects;
-    }
+
+//    public <T extends Storable> List<T> readFromFile(String fileName) throws IOException {
+//        List<T> objects = new ArrayList<>();
+//        T obj=null;
+//        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                String[] split = line.split(",");
+//                if(split[0].equals("Book")){obj = (T) returnedType(Book.class);
+//                }
+//                else if(split[0].equals("Car")){obj= (T) returnedType(Car.class);
+//                }
+//                else if(split[0].equals("RootVegetable")){obj= (T) returnedType(RootVegetable.class);
+//                }
+//
+//                // Десериализуем данные в объект
+//                obj.deserialize(line);
+//                objects.add(obj);
+//            }
+//        } catch (InvocationTargetException e) {
+//            throw new RuntimeException(e);
+//        } catch (InstantiationException e) {
+//            throw new RuntimeException(e);
+//        } catch (IllegalAccessException e) {
+//            throw new RuntimeException(e);
+//        } catch (NoSuchMethodException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return objects;
+//    }
+//        private <T> T returnedType(Class<T> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+//           return  clazz.getDeclaredConstructor().newInstance();
+//        }
+
+
+    public <T extends Storable>List<T> readFromFile(String fileName) throws IOException {
+        List<Storable> objects = new ArrayList<>();
 
     public <T extends Storable>List<T> readFromFile(String fileName) throws IOException {
         List<Storable> objects = new ArrayList<>();
