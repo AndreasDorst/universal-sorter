@@ -1,6 +1,4 @@
 package com.universalsorter.utils;
-import com.universalsorter.model.Book;
-import com.universalsorter.model.Car;
 import com.universalsorter.model.Storable;
 import com.universalsorter.repository.BookRepository;
 import com.universalsorter.repository.CarRepository;
@@ -11,7 +9,7 @@ import java.util.*;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Arrays;
-import java.util.Collections;
+
 
 
 
@@ -44,7 +42,8 @@ public class ArrayManager {
     // Загрузка случайных данных в массив
     public void loadRandomData() {
         if (array == null) {
-            System.out.println(messageArrayWasNotCreated);return;
+            System.out.println(messageArrayWasNotCreated);
+          return;
         }
             Random random = new Random();
             int book = 0;
@@ -97,6 +96,10 @@ public class ArrayManager {
     }
 
     public void saveToFile() throws IOException {
+       if (array == null) {
+            System.out.println(messageArrayWasNotCreated);
+         return;
+       } 
         for (Comparable st : array) {
             fileHandler.writeToFile(fileForWrite, (Storable) st);
         }
@@ -132,7 +135,8 @@ public class ArrayManager {
 
     public void shuffleArray() {
         if (array == null) {
-            System.out.println(messageArrayWasNotCreated);return;
+            System.out.println(messageArrayWasNotCreated);
+          return;
         }
             Random random = new Random();
             for (int i = array.length - 1; i > 0; i--) {
@@ -142,7 +146,7 @@ public class ArrayManager {
                 array[j] = temp;
             }
             System.out.println("\nМассив перемешан.\n");
-
+       
     }
 
     public String getArraySize() {
