@@ -124,7 +124,13 @@ public class ArrayManager {
 
     public void shuffleArray() {
         isArrayCreated();
-        Collections.shuffle(Arrays.asList(array));
+        Random random = new Random();
+        for (int i = array.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            Comparable temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
         System.out.println("\nМассив перемешан.\n");
     }
 
@@ -134,6 +140,7 @@ public class ArrayManager {
         }
         return array.length;
     }
+
 
     public String getArrayContents() {
         isArrayCreated();
