@@ -6,7 +6,7 @@ import java.util.Objects;
 
 /**
  * Class book with properties <b>author</b> and <b>title</b> and <b>numberOfPages</b>  .
- * {@code @autor} Аднрей, Евгений, Александр
+ * {@code @autor} EvgenSharapov, Andreas, Lemonsqz, Aleksandr Bogin
  * @version 1.1
  */
 public class Book implements Storable,Comparable<Book>, Comparator<Book> {
