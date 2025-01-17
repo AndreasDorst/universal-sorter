@@ -1,4 +1,6 @@
 package com.universalsorter.utils;
+import com.universalsorter.model.Book;
+import com.universalsorter.model.Car;
 import com.universalsorter.model.Storable;
 import com.universalsorter.repository.BookRepository;
 import com.universalsorter.repository.CarRepository;
@@ -6,6 +8,12 @@ import com.universalsorter.repository.RootVegetableRepository;
 import com.universalsorter.service.FileHandler;
 import java.io.IOException;
 import java.util.*;
+import java.util.Optional;
+import java.util.Random;
+import java.util.Arrays;
+import java.util.Collections;
+
+
 
 public class ArrayManager {
     private Comparable[] array;
@@ -70,6 +78,7 @@ public class ArrayManager {
             if ((book + car + root) >= (bookRepository.getSizeBookList() + carRepository.getSizeCarList() + rootVegetableRepository.getSizeRootList())) {
                 System.out.println("Массив частично заполнен случайными данными.\n");
                 return;
+
             }
         }
         System.out.println("Массив заполнен случайными данными.\n");
@@ -88,6 +97,7 @@ public class ArrayManager {
         }
         System.out.println("\nДанные из массива сохранены в файл.\n");
     }
+
 
     public void sortArray() {
         isArrayCreated();
@@ -130,6 +140,7 @@ public class ArrayManager {
         StringBuilder sb = new StringBuilder();
       
         for (Comparable element : array) {
+
             if (element == null) {
                 sb.append("\nПустой слот.\n");
             } else {
@@ -157,13 +168,14 @@ public class ArrayManager {
     }
 
   //загрузка данных из файла с массив.
+
     public void downloadDataFromFile() throws IOException{
         isArrayCreated();
         List<Storable> objects = fileHandler.readFromFile(fileForRead);
         for(int i=0;i<objects.size()&&i<array.length;i++){
             array[i]= (Comparable) objects.get(i);
         }
-        System.out.println("\nДанные из файла загружены в массив\n");
+
 
     }
     private void isArrayCreated(){

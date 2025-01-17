@@ -39,6 +39,7 @@ public class FileHandler {
      * @throws IOException Если произошла ошибка при чтении.
      */
 
+
 //    public <T extends Storable> List<T> readFromFile(String fileName) throws IOException {
 //        List<T> objects = new ArrayList<>();
 //        T obj=null;
@@ -75,6 +76,9 @@ public class FileHandler {
 
     public <T extends Storable>List<T> readFromFile(String fileName) throws IOException {
         List<Storable> objects = new ArrayList<>();
+
+    public <T extends Storable>List<T> readFromFile(String fileName) throws IOException {
+        List<Storable> objects = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -101,7 +105,7 @@ public class FileHandler {
         } catch (IllegalArgumentException e) {
             throw new IOException("Ошибка при чтении данных из файла: " + e.getMessage(), e);
         }
-        return (List<T>) objects;
+        return objects;
     }
 
 }
