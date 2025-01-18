@@ -1,8 +1,5 @@
 package com.universalsorter.utils;
-
-import com.universalsorter.model.Storable;
 import java.io.IOException;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class ConsoleMenu {
@@ -26,26 +23,66 @@ public class ConsoleMenu {
     }
 
     private void printMainMenu() {
-        System.out.println("1. Создать новый массив");
-        System.out.println("2. Загрузить данные в массив");
-        System.out.println("3. Сохранить данные в файл");
-        System.out.println("4. Отсортировать массив");
-        System.out.println("5. Перемешать массив");
-        System.out.println("6. Информация о массиве");
-        System.out.println("7. Выход");
-        System.out.print("Выберите пункт меню: ");
+        if(!arrayManager.isArrayCreated()){
+            System.out.println("1. Создать новый массив");
+            System.out.println("0. Выход");
+            System.out.print("Выберите пункт меню: ");
+        }
+        else if(arrayManager.isEmptyArray()) {
+            System.out.println("1. Загрузить данные в массив");
+            System.out.println("2. Удалить массив");
+            System.out.println("0. Выход");
+            System.out.print("Выберите пункт меню: ");
+        }
+        else {
+            System.out.println("1. Сохранить данные в файл");
+            System.out.println("2. Отсортировать массив");
+            System.out.println("3. Перемешать массив");
+            System.out.println("4. Информация о массиве");
+            System.out.println("5. Очистить массив");
+            System.out.println("6. Удалить массив");
+            System.out.println("0. Выход");
+            System.out.print("Выберите пункт меню: ");
+        }
+
     }
 
 
     private void handleMainMenu(String choice) throws IOException, InstantiationException, IllegalAccessException {
 
         int selection=0;
-        if (choice.matches("^[1-7]$")) {
+        if(!arrayManager.isArrayCreated()) {
+            if (choice.matches("^[01]$")) {
+                selection = Integer.parseInt(choice);
+
+            } else {
+                System.out.println("\nНеправильный ввод. Пожалуйста, введите значение 0 или 1.\n");
+                return;
+            }
+        }
+        else if(arrayManager.isEmptyArray()&&arrayManager.isArrayCreated()) {
+            if (choice.matches("^[0-2]$")) {
+                selection = Integer.parseInt(choice);
+                if (selection >0) {
+                    selection++;
+                }
+
+            } else {
+                System.out.println("\nНеправильный ввод. Пожалуйста, введите значение 0 или 2.\n");
+                return;
+            }
+        }
+        else
+        if (choice.matches("^[0-6]$")) {
             selection=Integer.parseInt(choice);
+            if(selection>0){
+                selection=selection+3;
+            }
 
         } else {
-            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 1 до 7.\n");return;
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значение ль 0 до 4.\n");return;
         }
+
 
         switch (selection) {
             case 1:
@@ -54,19 +91,28 @@ public class ConsoleMenu {
             case 2:
                 loadDataIntoArray();
                 break;
-            case 3:
+            case 4:
                 saveDataToFile();
                 break;
-            case 4:
+            case 5:
                 arrayManager.sortArray();
                 break;
-            case 5:
+            case 6:
                 arrayManager.shuffleArray();
                 break;
-            case 6:
+            case 7:
                 showArrayInfo();
                 break;
-            case 7:
+            case 8:
+                arrayManager.clearArray();
+                break;
+            case 3,9:
+                arrayManager.deleteArray();
+                break;
+
+
+
+            case 0:
                 System.exit(0);
                 break;
             default:
@@ -86,17 +132,16 @@ public class ConsoleMenu {
 
         System.out.println("\n1. Загрузить случайные данные");
         System.out.println("2. Загрузить данные из файла");
-        System.out.println("3. Добавить элемент вручную");
-        System.out.println("4. Назад");
+        System.out.println("0. Назад");
         System.out.print("Выберите пункт меню: ");
         String choice = scanner.next();
 
         int selection=0;
-        if (choice.matches("^[1-4]$")) {
+        if (choice.matches("^[0-2]$")) {
             selection=Integer.parseInt(choice);
 
         } else {
-            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 1 до 4.\n");return;
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 2.\n");return;
         }
 
         switch (selection) {
@@ -106,18 +151,11 @@ public class ConsoleMenu {
             case 2:
                 arrayManager.downloadDataFromFile();
                 break;
-            case 3:
-                addElementManually();
-                break;
-            case 4:
+            case 0:
                 break;
             default:
                 System.out.println("\nНеверный выбор. Попробуйте снова.\n");
         }
-    }
-
-    private void addElementManually() {
-     //Добавление объект кастомного класса;
     }
 
 
@@ -130,16 +168,16 @@ public class ConsoleMenu {
         System.out.println("\n1. Вывести размер массива");
         System.out.println("2. Вывести содержимое массива");
         System.out.println("3. Вывести элемент массива");
-        System.out.println("4. Назад");
+        System.out.println("0. Назад");
         System.out.print("Выберите пункт меню: ");
 
         String choice = scanner.next();
         int selection=0;
-        if (choice.matches("^[1-4]$")) {
+        if (choice.matches("^[0-3]$")) {
             selection=Integer.parseInt(choice);
 
         } else {
-            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 1 до 4.\n");return;
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 3.\n");return;
         }
 
         switch (selection) {
@@ -152,12 +190,13 @@ public class ConsoleMenu {
             case 3:
                 printArrayElement();
                 break;
-            case 4:
+            case 0:
                 break;
             default:
                 System.out.println("Неверный выбор. Попробуйте снова.\n");
         }
     }
+
 
     private void printArrayElement() {
         System.out.printf("\nВыберите элемент массива(от 1 до %d): ",arrayManager.getArraySize());
