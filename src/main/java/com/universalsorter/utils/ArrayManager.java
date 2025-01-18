@@ -20,7 +20,7 @@ public class ArrayManager {
     private final BookRepository bookRepository;
     private final CarRepository carRepository;
     private final RootVegetableRepository rootVegetableRepository;
-    private final FileHandler fileHandler = new FileHandler();
+    private final FileHandler fileHandler;
     private final String fileForWrite = "FileWrite.txt";
     private final String fileForReadBook = "src/main/recources/book.txt";
     private final String fileForReadCar = "src/main/recources/car.txt";
@@ -30,6 +30,7 @@ public class ArrayManager {
         bookRepository = new BookRepository();
         carRepository = new CarRepository();
         rootVegetableRepository = new RootVegetableRepository();
+        fileHandler=new FileHandler();
     }
 
 
