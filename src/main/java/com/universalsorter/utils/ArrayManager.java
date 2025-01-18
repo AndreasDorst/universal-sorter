@@ -17,12 +17,20 @@ public class ArrayManager {
 
 
     private Comparable[] array;
-    private final BookRepository bookRepository = new BookRepository();
-    private final CarRepository carRepository = new CarRepository();
-    private final RootVegetableRepository rootVegetableRepository = new RootVegetableRepository();
+    private final BookRepository bookRepository;
+    private final CarRepository carRepository;
+    private final RootVegetableRepository rootVegetableRepository;
     private final FileHandler fileHandler = new FileHandler();
     private final String fileForWrite = "FileWrite.txt";
+    private final String fileForReadBook = "src/main/recources/book.txt";
+    private final String fileForReadCar = "src/main/recources/car.txt";
+    private final String fileForReadRootVegetable = "src/main/recources/rootVegetable.txt";
 
+    public ArrayManager() {
+        bookRepository = new BookRepository();
+        carRepository = new CarRepository();
+        rootVegetableRepository = new RootVegetableRepository();
+    }
 
 
     public void createNewArray(String size) {
@@ -175,9 +183,9 @@ public class ArrayManager {
         }
         String file="";
         switch (choice){
-            case 1:file= "src/main/recources/book.txt";break;
-            case 2:file= "src/main/recources/car.txt";break;
-            case 3:file= "src/main/recources/rootVegetable.txt";break;
+            case 1:file= fileForReadBook;break;
+            case 2:file= fileForReadCar;break;
+            case 3:file= fileForReadRootVegetable;break;
         }
 
         List<Storable> objects = fileHandler.readFromFile(file);
@@ -186,14 +194,13 @@ public class ArrayManager {
         }
         switch (choice){
             case 1:
-                System.out.println("\nМассив заполнен данными типа Book\n");
+                System.out.println("\nМассив заполнен данными типа Book\n");break;
             case 2:
-                System.out.println("\nМассив заполнен данными типа Car\n");
+                System.out.println("\nМассив заполнен данными типа Car\n");break;
             case 3:
-                System.out.println("\nМассив заполнен данными типа RootVegetable\n");
+                System.out.println("\nМассив заполнен данными типа RootVegetable\n");break;
 
         }
-        System.out.println("\nДанные из файла загружены\n");
     }
 
     public boolean isArrayCreated() {
