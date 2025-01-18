@@ -43,10 +43,6 @@ public class ArrayManager {
 
     // Загрузка случайных данных в массив
     public void loadRandomData() {
-        if (array == null) {
-            System.out.println(messageArrayWasNotCreated);
-            return;
-        }
         Random random = new Random();
         int book = 0;
         int car = 0;
@@ -88,20 +84,7 @@ public class ArrayManager {
     }
 
 
-    public void addElement() {
-        if (array == null) {
-            System.out.println(messageArrayWasNotCreated);
-        }
-
-        //логика добавления одиночного кастомного обьекта
-
-    }
-
     public void saveToFile() throws IOException {
-        if (array == null) {
-            System.out.println(messageArrayWasNotCreated);
-            return;
-        }
         for (Comparable st : array) {
             fileHandler.writeToFile(fileForWrite, (Storable) st);
         }
@@ -110,9 +93,6 @@ public class ArrayManager {
 
 
     public void sortArray() {
-        if (array == null) {
-            System.out.println(messageArrayWasNotCreated);return;
-        }
         Arrays.sort(array, (Comparator<Object>) (o1, o2) -> {
             // Сравнение по типу объекта
             String type1 = o1.getClass().getSimpleName();
@@ -136,10 +116,6 @@ public class ArrayManager {
 
 
     public void shuffleArray() {
-        if (array == null) {
-            System.out.println(messageArrayWasNotCreated);
-            return;
-        }
         Random random = new Random();
         for (int i = array.length - 1; i > 0; i--) {
             int j = random.nextInt(i + 1);
@@ -160,22 +136,14 @@ public class ArrayManager {
         System.out.println("\nМассив удалён.\n");
     }
 
-    public String getArraySize() {
-        if (array == null) {
-            System.out.println(messageArrayWasNotCreated);
-            return "";
-        }
+    public int getArraySize() {
 
-        return String.valueOf(array.length);
+        return array.length;
 
     }
 
 
     public String getArrayContents() {
-        if (array == null) {
-            System.out.println(messageArrayWasNotCreated);
-            return "";
-        }
         System.out.println("Содержимое массива:\n\n");
         StringBuilder sb = new StringBuilder();
 
@@ -191,10 +159,6 @@ public class ArrayManager {
     }
 
     public void getElement(String index) {
-        if (array == null) {
-            System.out.println(messageArrayWasNotCreated);
-            return;
-        }
         if (index.matches("^(0|[1-9][0-9]*)$")) {
             int element = Integer.parseInt(index);
             if (element <= array.length && element != 0) {
@@ -211,11 +175,6 @@ public class ArrayManager {
     //загрузка данных из файла с массив.
 
     public void downloadDataFromFile() throws IOException{
-        if (array == null) {
-            System.out.println(messageArrayWasNotCreated);
-            return;
-        }
-
         List<Storable> objects = fileHandler.readFromFile(fileForRead);
         for (int i = 0; i < objects.size() && i < array.length; i++) {
             array[i] = (Comparable) objects.get(i);
