@@ -1,4 +1,5 @@
 package com.universalsorter.model;
+import java.time.Year;
 import java.util.Comparator;
 import java.util.Locale;
 import java.util.Objects;
@@ -61,24 +62,24 @@ public class Car implements Storable,Comparable<Car>, Comparator<Car> {
      */
     @Override
     public int compareTo(Car car) {
-            if (car == null) {
-                throw new NullPointerException("Сравниваемый объект не может быть null");
-            }
+        if (car == null) {
+            throw new NullPointerException("Сравниваемый объект не может быть null");
+        }
 
-            // Сравнение по model (модель автомобиля)
-            int modelComparison = this.model.compareTo(car.model);
-            if (modelComparison != 0) {
-                return modelComparison;
-            }
+        // Сравнение по model (модель автомобиля)
+        int modelComparison = this.model.compareTo(car.model);
+        if (modelComparison != 0) {
+            return modelComparison;
+        }
 
-            // Если модели одинаковые, сравниваем по power (мощность)
-            int powerComparison = this.power.compareTo(car.power);
-            if (powerComparison != 0) {
-                return powerComparison;
-            }
+        // Если модели одинаковые, сравниваем по power (мощность)
+        int powerComparison = this.power.compareTo(car.power);
+        if (powerComparison != 0) {
+            return powerComparison;
+        }
 
-            // Если мощность одинаковая, сравниваем по yearOfProduction (год выпуска)
-            return this.yearOfProduction.compareTo(car.yearOfProduction);
+        // Если мощность одинаковая, сравниваем по yearOfProduction (год выпуска)
+        return this.yearOfProduction.compareTo(car.yearOfProduction);
 
     }
 
@@ -111,6 +112,28 @@ public class Car implements Storable,Comparable<Car>, Comparator<Car> {
         private Double power;
         private Integer yearOfProduction;
 
+        /**
+         * Метод для валидации
+         * Минимальная мощность автомобиля не может быть равна или меньше нуля
+         * Максимальная мощность автомобиля не может превышать 2000
+         * Минимальная допустимая дата производа 1800
+         * Минимальная допустимая дата производа не может быть выше текущего года
+         * Строка не может иметь значение null или быть пустой
+         */
+        private void validate() {
+            final double MINIMUM_POWER = 0; // минимальное количество лошадиных сил
+            final double MAXIMUM_POWER = 2000; // максимальное количество лошадиных сил
+            final int MIN_YEAR_OF_PRODUCTION = 1800; // минимальная дата производства
+            final int MAX_YEAR_OF_PRODUCTION = Year.now().getValue(); // максимальная дата производства
+            final String ERROR_MESSAGE = "Введены некорректные данные"; // сообщение об ошибке
+
+            if (model == null || model.isEmpty() || power <= MINIMUM_POWER || power > MAXIMUM_POWER ||
+                    yearOfProduction < MIN_YEAR_OF_PRODUCTION || yearOfProduction > MAX_YEAR_OF_PRODUCTION) {
+                throw new IllegalStateException(ERROR_MESSAGE);
+            }
+
+        }
+
 
         public Car.Builder model(String model) {
             this.model = model;
@@ -128,9 +151,7 @@ public class Car implements Storable,Comparable<Car>, Comparator<Car> {
         }
 
         public Car build() {
-            if (model == null || power <= 0 || yearOfProduction < 1800) {
-                throw new IllegalStateException("Введены некорректные данные");
-            }
+            validate();
             return new Car(model, power, yearOfProduction);
         }
     }

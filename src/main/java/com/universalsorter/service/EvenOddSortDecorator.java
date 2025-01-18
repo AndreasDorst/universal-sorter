@@ -1,4 +1,5 @@
 package com.universalsorter.service;
+
 import com.universalsorter.model.Book;
 import com.universalsorter.model.Car;
 import com.universalsorter.model.RootVegetable;
@@ -8,6 +9,7 @@ import java.util.*;
 /**
  * Класс используется для быстрой сортировки.
  * {@code @autor} Богинь Александр
+ *
  * @version 1.0
  */
 public class EvenOddSortDecorator {
@@ -18,7 +20,6 @@ public class EvenOddSortDecorator {
      * (сортируются машины с четным годом выпуска, машины с нечетным остаются в той же позиции).
      *
      * @param listCars Коллекция машин.
-     *
      */
 
 
@@ -49,7 +50,6 @@ public class EvenOddSortDecorator {
      * (сортируются rootVegetable с четным значением веса, rootVegetable с нечетным остаются в той же позиции).
      *
      * @param rootVegetableList Коллекция корнеплодов.
-     *
      */
 
     private static void sortRootVegetables(List<RootVegetable> rootVegetableList) {
@@ -80,7 +80,6 @@ public class EvenOddSortDecorator {
      * (сортируются книги с четным колличеством страниц, книги с нечетным остаются в той же позиции).
      *
      * @param bookList Коллекция книг.
-     *
      */
 
     private static void sortBooks(List<Book> bookList) {
@@ -121,14 +120,13 @@ public class EvenOddSortDecorator {
      * (сортируются машины с четным годом выпуска, машины с нечетным остаются в той же позиции).
      *
      * @param list Коллекция книг.
-     *
      */
     public static void sortEvenOdd(List<?> list) {
 
-        if (!list.isEmpty()){
-            if(list.getFirst() instanceof RootVegetable){
-            sortRootVegetables((List<RootVegetable>) list);
-            } else if (list.getFirst() instanceof Book){
+        if (!list.isEmpty()) {
+            if (list.getFirst() instanceof RootVegetable) {
+                sortRootVegetables((List<RootVegetable>) list);
+            } else if (list.getFirst() instanceof Book) {
                 sortBooks((List<Book>) list);
             } else if (list.getFirst() instanceof Car) {
                 sortCarsByYearOfProduction((List<Car>) list);
