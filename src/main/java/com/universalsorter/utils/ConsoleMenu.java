@@ -39,8 +39,9 @@ public class ConsoleMenu {
             System.out.println("2. Отсортировать массив");
             System.out.println("3. Перемешать массив");
             System.out.println("4. Информация о массиве");
-            System.out.println("5. Очистить массив");
-            System.out.println("6. Удалить массив");
+            System.out.println("5. Убрать пустые секции массива");
+            System.out.println("6. Очистить массив");
+            System.out.println("7. Удалить массив");
             System.out.println("0. Выход");
             System.out.print("Выберите пункт меню: ");
         }
@@ -73,7 +74,7 @@ public class ConsoleMenu {
             }
         }
         else
-        if (choice.matches("^[0-6]$")) {
+        if (choice.matches("^[0-7]$")) {
             selection=Integer.parseInt(choice);
             if(selection>0){
                 selection=selection+3;
@@ -95,7 +96,7 @@ public class ConsoleMenu {
                 saveDataToFile();
                 break;
             case 5:
-                arrayManager.sortArray();
+                sortArrayMenu();
                 break;
             case 6:
                 arrayManager.shuffleArray();
@@ -103,10 +104,11 @@ public class ConsoleMenu {
             case 7:
                 showArrayInfo();
                 break;
-            case 8:
+            case 8:arrayManager.removeNullElements();break;
+            case 9:
                 arrayManager.clearArray();
                 break;
-            case 3,9:
+            case 3,10:
                 arrayManager.deleteArray();
                 break;
 
@@ -216,6 +218,40 @@ public class ConsoleMenu {
         arrayManager.saveToFile();
     }
 
+    private void sortArrayMenu() {
+        System.out.println("\n1. Вывести размер массива");
+        System.out.println("2. Вывести содержимое массива");
+        System.out.println("3. Вывести элемент массива");
+        System.out.println("0. Назад");
+        System.out.print("Выберите пункт меню: ");
+
+        String choice = scanner.next();
+        int selection=0;
+        if (choice.matches("^[0-3]$")) {
+            selection=Integer.parseInt(choice);
+
+        } else {
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 3.\n");return;
+        }
+
+        switch (selection) {
+            case 1:
+                System.out.println("Размер массива: " + arrayManager.getArraySize()+"\n");
+                break;
+            case 2:
+                System.out.println(arrayManager.getArrayContents());
+                break;
+            case 3:
+                printArrayElement();
+                break;
+            case 0:
+                break;
+            default:
+                System.out.println("Неверный выбор. Попробуйте снова.\n");
+        }
+    }
+
+
     private void showArrayInfo() {
         System.out.println("\n1. Вывести размер массива");
         System.out.println("2. Вывести содержимое массива");
@@ -248,6 +284,9 @@ public class ConsoleMenu {
                 System.out.println("Неверный выбор. Попробуйте снова.\n");
         }
     }
+
+
+
 
 
     private void printArrayElement() {

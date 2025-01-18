@@ -96,25 +96,15 @@ public class ArrayManager {
 
 
     public void sortArray() {
-        Arrays.sort(array, (Comparator<Object>) (o1, o2) -> {
-            // Сравнение по типу объекта
-            String type1 = o1.getClass().getSimpleName();
-            String type2 = o2.getClass().getSimpleName();
-            int typeComparison = type1.compareTo(type2);
-
-            if (typeComparison != 0) {
-                return typeComparison;
-            }
-
-            // Если типы одинаковые, используем compareTo
-            if (o1 instanceof Comparable && o2 instanceof Comparable) {
-                return ((Comparable) o1).compareTo(o2);
-            }
-
-            throw new IllegalArgumentException("Объекты не поддерживают сравнение");
-        });
-
-        System.out.println("\nМассив отсортирован.\n");}
+        Comparable[] temp=new Comparable[array.length];
+        removeNullElements();
+        Arrays.sort(array);
+        for(int i=0;i<array.length;i++){
+            temp[i]=array[i];
+        }
+        array=temp;
+        System.out.println("\nМассив отсортирован.\n");
+    }
 
 
 
@@ -205,6 +195,7 @@ public class ArrayManager {
     }
 
     public boolean isArrayCreated() {
+
         return array != null;
     }
 
@@ -215,5 +206,27 @@ public class ArrayManager {
             }
         }
         return true;
+    }
+
+    public void removeNullElements() {
+        // Подсчитываем количество не-null элементов
+        int count = 0;
+        for (Comparable element : array) {
+            if (element != null) {
+                count++;
+            }
+        }
+        // Создаем новый массив нужного размера
+        Comparable[]temp=new Comparable[count];
+
+        // Заполняем новый массив не-null элементами
+        for(int i=0,j=0;i<array.length;i++){
+            if(array[i]!=null){
+                temp[j]=array[i];
+                j++;
+            }
+        }
+        array=temp;
+        System.out.println("\nПустые секции удалены.\n");
     }
 }

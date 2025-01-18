@@ -1,6 +1,6 @@
 package com.universalsorter.model;
 
-public class Book implements Storable, Comparable {
+public class Book implements Storable, Comparable<Book> {
 
     private final String author;
     private final String title;
@@ -19,9 +19,27 @@ public class Book implements Storable, Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        return 0;
-    }
+    public int compareTo(Book book) {
+            if (book == null) {
+                throw new NullPointerException("Сравниваемый объект не может быть null");
+            }
+
+            // Сравнение по author (автор)
+            int authorComparison = this.author.compareTo(book.author);
+            if (authorComparison != 0) {
+                return authorComparison;
+            }
+
+            // Если авторы одинаковые, сравниваем по title (название)
+            int titleComparison = this.title.compareTo(book.title);
+            if (titleComparison != 0) {
+                return titleComparison;
+            }
+
+            // Если названия одинаковые, сравниваем по numberOfPages (количество страниц)
+            return this.numberOfPages.compareTo(book.numberOfPages);
+        }
+
 
 
     public static class Builder {
