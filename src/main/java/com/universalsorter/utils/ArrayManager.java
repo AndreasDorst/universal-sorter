@@ -14,6 +14,8 @@ import java.util.Arrays;
 
 
 public class ArrayManager {
+
+
     private Comparable[] array;
     private final BookRepository bookRepository = new BookRepository();
     private final CarRepository carRepository = new CarRepository();
@@ -43,46 +45,46 @@ public class ArrayManager {
     public void loadRandomData() {
         if (array == null) {
             System.out.println(messageArrayWasNotCreated);
-          return;
+            return;
         }
-            Random random = new Random();
-            int book = 0;
-            int car = 0;
-            int root = 0;
-            for (int i = 0; i < array.length; i++) {
-                switch (random.nextInt(3)) {
-                    case 0:
-                        array[i] = bookRepository.getBook(book);
-                        book++;
+        Random random = new Random();
+        int book = 0;
+        int car = 0;
+        int root = 0;
+        for (int i = 0; i < array.length; i++) {
+            switch (random.nextInt(3)) {
+                case 0:
+                    array[i] = bookRepository.getBook(book);
+                    book++;
 
-                        if (bookRepository.getBook(book) == null) {
-                            i--;
-                        }
-                        break;
-                    case 1:
-                        array[i] = carRepository.getCar(car);
-                        car++;
+                    if (bookRepository.getBook(book) == null) {
+                        i--;
+                    }
+                    break;
+                case 1:
+                    array[i] = carRepository.getCar(car);
+                    car++;
 
-                        if (carRepository.getCar(car) == null) {
-                            i--;
-                        }
-                        break;
-                    case 2:
-                        array[i] = rootVegetableRepository.getRootVegetable(root);
-                        root++;
+                    if (carRepository.getCar(car) == null) {
+                        i--;
+                    }
+                    break;
+                case 2:
+                    array[i] = rootVegetableRepository.getRootVegetable(root);
+                    root++;
 
-                        if (rootVegetableRepository.getRootVegetable(root) == null) {
-                            i--;
-                        }
-                        break;
-                }
-                if ((book + car + root) >= (bookRepository.getSizeBookList() + carRepository.getSizeCarList() + rootVegetableRepository.getSizeRootList())) {
-                    System.out.println("Массив частично заполнен случайными данными.\n");
-                    return;
-
-                }
+                    if (rootVegetableRepository.getRootVegetable(root) == null) {
+                        i--;
+                    }
+                    break;
             }
-            System.out.println("Массив заполнен случайными данными.\n");
+            if ((book + car + root) >= (bookRepository.getSizeBookList() + carRepository.getSizeCarList() + rootVegetableRepository.getSizeRootList())) {
+                System.out.println("Массив частично заполнен случайными данными.\n");
+                return;
+
+            }
+        }
+        System.out.println("\nМассив заполнен случайными данными.\n");
     }
 
 
@@ -91,15 +93,15 @@ public class ArrayManager {
             System.out.println(messageArrayWasNotCreated);
         }
 
-            //логика добавления одиночного кастомного обьекта
+        //логика добавления одиночного кастомного обьекта
 
     }
 
     public void saveToFile() throws IOException {
-       if (array == null) {
+        if (array == null) {
             System.out.println(messageArrayWasNotCreated);
-         return;
-       } 
+            return;
+        }
         for (Comparable st : array) {
             fileHandler.writeToFile(fileForWrite, (Storable) st);
         }
@@ -136,17 +138,26 @@ public class ArrayManager {
     public void shuffleArray() {
         if (array == null) {
             System.out.println(messageArrayWasNotCreated);
-          return;
+            return;
         }
-            Random random = new Random();
-            for (int i = array.length - 1; i > 0; i--) {
-                int j = random.nextInt(i + 1);
-                Comparable temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
-            }
-            System.out.println("\nМассив перемешан.\n");
-       
+        Random random = new Random();
+        for (int i = array.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            Comparable temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+        System.out.println("\nМассив перемешан.\n");
+
+    }
+    public void clearArray(){
+        array=new Comparable[array.length];
+        System.out.println("\nМассив очищен.\n");
+    }
+
+    public void deleteArray(){
+        array=null;
+        System.out.println("\nМассив удалён.\n");
     }
 
     public String getArraySize() {
@@ -155,7 +166,7 @@ public class ArrayManager {
             return "";
         }
 
-            return String.valueOf(array.length);
+        return String.valueOf(array.length);
 
     }
 
@@ -165,18 +176,18 @@ public class ArrayManager {
             System.out.println(messageArrayWasNotCreated);
             return "";
         }
-            System.out.println("Содержимое массива:\n\n");
-            StringBuilder sb = new StringBuilder();
+        System.out.println("Содержимое массива:\n\n");
+        StringBuilder sb = new StringBuilder();
 
-            for (Comparable element : array) {
+        for (Comparable element : array) {
 
-                if (element == null) {
-                    sb.append("\nПустой слот.\n");
-                } else {
-                    sb.append(element).append("\n");
-                }
+            if (element == null) {
+                sb.append("\nПустой слот.\n");
+            } else {
+                sb.append(element).append("\n");
             }
-            return sb.toString();
+        }
+        return sb.toString();
     }
 
     public void getElement(String index) {
@@ -184,20 +195,20 @@ public class ArrayManager {
             System.out.println(messageArrayWasNotCreated);
             return;
         }
-            if (index.matches("^(0|[1-9][0-9]*)$")) {
-                int element = Integer.parseInt(index);
-                if (element <= array.length && element != 0) {
+        if (index.matches("^(0|[1-9][0-9]*)$")) {
+            int element = Integer.parseInt(index);
+            if (element <= array.length && element != 0) {
 
-                    Optional<Comparable> temp = Optional.ofNullable(array[element - 1]);
+                Optional<Comparable> temp = Optional.ofNullable(array[element - 1]);
 
-                    temp.ifPresentOrElse(v -> System.out.println(v), () -> System.out.println("Пустой слот.\n"));
-                } else {
-                    System.out.println("Некорректный номер элемента массива.\n");
-                }
+                temp.ifPresentOrElse(v -> System.out.println(v), () -> System.out.println("Пустой слот.\n"));
+            } else {
+                System.out.println("Некорректный номер элемента массива.\n");
+            }
         }
     }
 
-  //загрузка данных из файла с массив.
+    //загрузка данных из файла с массив.
 
     public void downloadDataFromFile() throws IOException{
         if (array == null) {
@@ -205,9 +216,23 @@ public class ArrayManager {
             return;
         }
 
-            List<Storable> objects = fileHandler.readFromFile(fileForRead);
-            for (int i = 0; i < objects.size() && i < array.length; i++) {
-                array[i] = (Comparable) objects.get(i);
+        List<Storable> objects = fileHandler.readFromFile(fileForRead);
+        for (int i = 0; i < objects.size() && i < array.length; i++) {
+            array[i] = (Comparable) objects.get(i);
+        }
+        System.out.println("\nДанные из файла загружены\n");
+    }
+
+    public boolean isArrayCreated() {
+        return array != null;
+    }
+
+    public boolean isEmptyArray(){
+        for (Comparable comparable : array) {
+            if (comparable != null) {
+                return false;
             }
         }
+        return true;
+    }
 }
