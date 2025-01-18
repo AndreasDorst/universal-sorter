@@ -42,7 +42,6 @@ public class CarRepository {
     }
 
     public Car getCar(int i){
-        if(i>=CARS.size()){return null;}
         return  CARS.get(i);
     }
     public int getSizeCarList(){

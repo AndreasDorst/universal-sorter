@@ -1,0 +1,32 @@
+Car,Tesla Model S,1020.00,2020
+Car,BMW M3,473.00,2022
+Car,Audi RS7,591.00,2021
+Car,Mercedes-Benz E-Class,362.00,2023
+Car,Ford Mustang,450.00,2021
+Car,KIA Optima,150.00,2021
+Car,Porsche 911,640.00,2023
+Car,Toyota Supra,382.00,2022
+Car,Chevrolet Corvette,495.00,2023
+Car,Nissan GT-R,565.00,2021
+Car,Lamborghini Aventador,770.00,2022
+Car,Ferrari 488 GTB,661.00,2021
+Car,Volkswagen Golf GTI,245.00,2022
+Car,Hyundai Sonata,180.00,2021
+Car,Mazda CX-5,187.00,2023
+Car,Subaru WRX STI,310.00,2022
+Car,Lexus LS 500,416.00,2023
+Car,Jaguar F-Type,444.00,2021
+Car,McLaren 720S,710.00,2022
+Car,Bugatti Chiron,1500.00,2023
+Car,Aston Martin DB11,630.00,2021
+Car,Rolls-Royce Phantom,563.00,2023
+Car,Honda Civic Type R,320.00,2022
+Car,Volvo XC90,316.00,2021
+Car,Dodge Challenger,717.00,2023
+Car,Alfa Romeo Giulia,505.00,2022
+Car,Maserati Quattroporte,580.00,2021
+Car,Genesis G90,365.00,2023
+Car,Infiniti Q50,300.00,2022
+Car,Land Rover Defender,395.00,2021
+Car,Jeep Wrangler,285.00,2023
+Car,Mini Cooper S,189.00,2022
