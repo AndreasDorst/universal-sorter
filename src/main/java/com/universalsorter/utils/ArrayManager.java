@@ -17,13 +17,21 @@ public class ArrayManager {
 
 
     private Comparable[] array;
-    private final BookRepository bookRepository = new BookRepository();
-    private final CarRepository carRepository = new CarRepository();
-    private final RootVegetableRepository rootVegetableRepository = new RootVegetableRepository();
-    private final FileHandler fileHandler = new FileHandler();
-    private final String fileForWrite = "fileWrite.txt";
-    private final String fileForRead = "fileRead.txt";
-    private final String messageArrayWasNotCreated="Массив не создан. Сначала создайте массив.\n";
+    private final BookRepository bookRepository;
+    private final CarRepository carRepository;
+    private final RootVegetableRepository rootVegetableRepository;
+    private final FileHandler fileHandler;
+    private final String fileForWrite = "FileWrite.txt";
+    private final String fileForReadBook = "src/main/recources/book.txt";
+    private final String fileForReadCar = "src/main/recources/car.txt";
+    private final String fileForReadRootVegetable = "src/main/recources/rootVegetable.txt";
+
+    public ArrayManager() {
+        bookRepository = new BookRepository();
+        carRepository = new CarRepository();
+        rootVegetableRepository = new RootVegetableRepository();
+        fileHandler=new FileHandler();
+    }
 
 
     public void createNewArray(String size) {
@@ -41,46 +49,41 @@ public class ArrayManager {
 
     }
 
-    // Загрузка случайных данных в массив
-    public void loadRandomData() {
-        Random random = new Random();
-        int book = 0;
-        int car = 0;
-        int root = 0;
-        for (int i = 0; i < array.length; i++) {
-            switch (random.nextInt(3)) {
-                case 0:
-                    array[i] = bookRepository.getBook(book);
-                    book++;
+    // Загрузка данных в массив из классов
+    public void downloadDataFromStorage(int choice) {
 
-                    if (bookRepository.getBook(book) == null) {
-                        i--;
-                    }
-                    break;
-                case 1:
-                    array[i] = carRepository.getCar(car);
-                    car++;
-
-                    if (carRepository.getCar(car) == null) {
-                        i--;
-                    }
-                    break;
-                case 2:
-                    array[i] = rootVegetableRepository.getRootVegetable(root);
-                    root++;
-
-                    if (rootVegetableRepository.getRootVegetable(root) == null) {
-                        i--;
-                    }
-                    break;
-            }
-            if ((book + car + root) >= (bookRepository.getSizeBookList() + carRepository.getSizeCarList() + rootVegetableRepository.getSizeRootList())) {
-                System.out.println("Массив частично заполнен случайными данными.\n");
-                return;
-
-            }
+        if(choice==4){
+            Random random=new Random();
+            choice=random.nextInt(3)+1;//от 1 до 3
         }
-        System.out.println("\nМассив заполнен случайными данными.\n");
+
+        switch (choice){
+            case 1:fillArrayBookTypeFromStorage();break;
+            case 2:fillArrayCarTypeFromStorage();break;
+            case 3:fillArrayRootVegetableTypeFromStorage();break;
+
+        }
+    }
+
+    private void fillArrayBookTypeFromStorage(){
+        for(int i=0;(i<array.length&&i<bookRepository.getSizeBookList());i++){
+            array[i]= bookRepository.getBook(i);
+        }
+            System.out.println("\nМассив заполнен данными типа Book\n");
+    }
+
+    private void fillArrayCarTypeFromStorage(){
+        for(int i=0;(i<array.length&&i<carRepository.getSizeCarList());i++){
+            array[i]= carRepository.getCar(i);
+        }
+            System.out.println("\nМассив заполнен данными типа Car\n");
+    }
+
+    private void fillArrayRootVegetableTypeFromStorage(){
+        for(int i=0;(i<array.length&&i<rootVegetableRepository.getSizeRootList());i++){
+            array[i]= rootVegetableRepository.getRootVegetable(i);
+        }
+            System.out.println("\nМассив заполнен данными типа RootVegetable\n");
     }
 
 
@@ -173,13 +176,32 @@ public class ArrayManager {
     }
 
     //загрузка данных из файла с массив.
+    public void downloadDataFromFile(int choice) throws IOException{
 
-    public void downloadDataFromFile() throws IOException{
-        List<Storable> objects = fileHandler.readFromFile(fileForRead);
+        if(choice==4){
+            Random random=new Random();
+            choice=random.nextInt(3)+1;//от 1 до 3
+        }
+        String file="";
+        switch (choice){
+            case 1:file= fileForReadBook;break;
+            case 2:file= fileForReadCar;break;
+            case 3:file= fileForReadRootVegetable;break;
+        }
+
+        List<Storable> objects = fileHandler.readFromFile(file);
         for (int i = 0; i < objects.size() && i < array.length; i++) {
             array[i] = (Comparable) objects.get(i);
         }
-        System.out.println("\nДанные из файла загружены\n");
+        switch (choice){
+            case 1:
+                System.out.println("\nМассив заполнен данными типа Book\n");break;
+            case 2:
+                System.out.println("\nМассив заполнен данными типа Car\n");break;
+            case 3:
+                System.out.println("\nМассив заполнен данными типа RootVegetable\n");break;
+
+        }
     }
 
     public boolean isArrayCreated() {

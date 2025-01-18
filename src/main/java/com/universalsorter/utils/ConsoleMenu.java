@@ -68,7 +68,7 @@ public class ConsoleMenu {
                 }
 
             } else {
-                System.out.println("\nНеправильный ввод. Пожалуйста, введите значение 0 или 2.\n");
+                System.out.println("\nНеправильный ввод. Пожалуйста, введите значение от 0 до 2.\n");
                 return;
             }
         }
@@ -80,7 +80,7 @@ public class ConsoleMenu {
             }
 
         } else {
-            System.out.println("\nНеправильный ввод. Пожалуйста, введите значение ль 0 до 4.\n");return;
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значение от 0 до 4.\n");return;
         }
 
 
@@ -128,9 +128,9 @@ public class ConsoleMenu {
     }
 
 
-    private void loadDataIntoArray() throws IOException, InstantiationException, IllegalAccessException {
+    private void loadDataIntoArray() throws IOException{
 
-        System.out.println("\n1. Загрузить случайные данные");
+        System.out.println("\n1. Загрузить данные из программы");
         System.out.println("2. Загрузить данные из файла");
         System.out.println("0. Назад");
         System.out.print("Выберите пункт меню: ");
@@ -146,10 +146,10 @@ public class ConsoleMenu {
 
         switch (selection) {
             case 1:
-                arrayManager.loadRandomData();
+                selectDataTypeFromStorage();
                 break;
             case 2:
-                arrayManager.downloadDataFromFile();
+                selectDataTypeFromFile();
                 break;
             case 0:
                 break;
@@ -157,6 +157,58 @@ public class ConsoleMenu {
                 System.out.println("\nНеверный выбор. Попробуйте снова.\n");
         }
     }
+
+
+    private void selectDataTypeFromStorage(){
+        System.out.println("\n1. Загрузить данные типа Book");
+        System.out.println("2. Загрузить данные типа Car");
+        System.out.println("3. Загрузить данные типа RootVegetable");
+        System.out.println("4. Загрузить данные случайного типа");
+        System.out.println("0. Назад");
+        System.out.print("Выберите пункт меню: ");
+        String choice = scanner.next();
+
+        int selection=0;
+        if (choice.matches("^[0-4]$")) {
+            selection=Integer.parseInt(choice);
+
+        } else {
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 4.\n");
+            return;
+        }
+        if(selection>0){
+            arrayManager.downloadDataFromStorage(selection);
+        }
+        else
+            System.out.println();
+            return;
+        }
+
+    private void selectDataTypeFromFile() throws IOException {
+        System.out.println("\n1. Загрузить данные типа Book");
+        System.out.println("2. Загрузить данные типа Car");
+        System.out.println("3. Загрузить данные типа RootVegetable");
+        System.out.println("4. Загрузить данные случайного типа");
+        System.out.println("0. Назад");
+        System.out.print("Выберите пункт меню: ");
+        String choice = scanner.next();
+
+        int selection=0;
+        if (choice.matches("^[0-4]$")) {
+            selection=Integer.parseInt(choice);
+
+        } else {
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 4.\n");
+            return;
+        }
+        if(selection>0){
+            arrayManager.downloadDataFromFile(selection);
+        }
+        else
+            System.out.println();
+        return;
+    }
+
 
 
     private void saveDataToFile() throws IOException {

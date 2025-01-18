@@ -35,7 +35,6 @@ public class BookRepository {
     }
 
     public Book getBook(int i){
-        if(i>=BOOKS.size()){return null;}
         return  BOOKS.get(i);
     }
     public int getSizeBookList(){

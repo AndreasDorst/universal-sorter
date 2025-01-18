@@ -1,0 +1,14 @@
+RootVegetable,Свёкла,225.00,Фиолетовый
+RootVegetable,Морковь,75.00,Оранжевый
+RootVegetable,Репа,175.00,Белый
+RootVegetable,Редис,22.00,Фиолетовый
+RootVegetable,Картофель,150.00,Коричневый
+RootVegetable,Имбирь,100.00,Коричневый
+RootVegetable,Батат,200.00,Розовый
+RootVegetable,Пастернак,120.00,Бежевый
+RootVegetable,Хрен,50.00,Белый
+RootVegetable,Топинамбур,130.00,Коричневый
+RootVegetable,Козелец,90.00,Белый
+RootVegetable,Сельдерей,110.00,Белый
+RootVegetable,Лук репчатый,70.00,Коричневый
+RootVegetable,Чеснок,30.00,Белый

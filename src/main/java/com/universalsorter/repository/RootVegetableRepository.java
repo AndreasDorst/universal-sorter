@@ -25,7 +25,6 @@ public class RootVegetableRepository {
     }
 
     public RootVegetable getRootVegetable(int i){
-        if(i>=ROOTS_VEG.size()){return null;}
         return  ROOTS_VEG.get(i);
     }
     public int getSizeRootList(){
