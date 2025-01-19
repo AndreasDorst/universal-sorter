@@ -1,9 +1,13 @@
 package com.universalsorter.utils;
+import com.universalsorter.model.Book;
+import com.universalsorter.model.Car;
+import com.universalsorter.model.RootVegetable;
 import com.universalsorter.model.Storable;
 import com.universalsorter.repository.BookRepository;
 import com.universalsorter.repository.CarRepository;
 import com.universalsorter.repository.RootVegetableRepository;
-import com.universalsorter.service.FileHandler;
+import com.universalsorter.service.*;
+
 import java.io.IOException;
 import java.time.Year;
 import java.util.*;
@@ -26,12 +30,20 @@ public class ArrayManager {
     private final String fileForReadBook = "src/main/recources/book.txt";
     private final String fileForReadCar = "src/main/recources/car.txt";
     private final String fileForReadRootVegetable = "src/main/recources/rootVegetable.txt";
+    SortingContext<Comparable> context;
+    private String typeSort;
+
+
+
 
     public ArrayManager() {
         bookRepository = new BookRepository();
         carRepository = new CarRepository();
         rootVegetableRepository = new RootVegetableRepository();
         fileHandler=new FileHandler();
+        context=new SortingContext<>(new BubbleSort<>());
+        typeSort="BubbleSort";
+
     }
 
 
@@ -97,25 +109,17 @@ public class ArrayManager {
 
 
     public void sortArray() {
-        Arrays.sort(array, (Comparator<Object>) (o1, o2) -> {
-            // Сравнение по типу объекта
-            String type1 = o1.getClass().getSimpleName();
-            String type2 = o2.getClass().getSimpleName();
-            int typeComparison = type1.compareTo(type2);
-
-            if (typeComparison != 0) {
-                return typeComparison;
-            }
-
-            // Если типы одинаковые, используем compareTo
-            if (o1 instanceof Comparable && o2 instanceof Comparable) {
-                return ((Comparable) o1).compareTo(o2);
-            }
-
-            throw new IllegalArgumentException("Объекты не поддерживают сравнение");
-        });
-
-        System.out.println("\nМассив отсортирован.\n");}
+        Comparable[] temp=new Comparable[array.length];
+        removeNullElements(false);
+        long start = System.currentTimeMillis();
+        Arrays.sort(array);
+        long stop = System.currentTimeMillis();
+        for(int i=0;i<array.length;i++){
+            temp[i]=array[i];
+        }
+        array=temp;
+        System.out.printf("\nМассив отсортирован за:\t%d ms\n\n", (stop - start));
+    }
 
 
 
@@ -271,6 +275,7 @@ public class ArrayManager {
     }
 
     public boolean isArrayCreated() {
+
         return array != null;
     }
 
@@ -282,4 +287,120 @@ public class ArrayManager {
         }
         return true;
     }
+
+    public String findElement(Comparable item) {
+    	return SortedArraySearch.getElement(this.array, item);
+    }
+
+    public void removeNullElements(Boolean showMessage) {
+        // Подсчитываем количество не-null элементов
+        int count = 0;
+        for (Comparable element : array) {
+            if (element != null) {
+                count++;
+            }
+        }
+        // Создаем новый массив нужного размера
+        Comparable[]temp=new Comparable[count];
+
+        // Заполняем новый массив не-null элементами
+        for(int i=0,j=0;i<array.length;i++){
+            if(array[i]!=null){
+                temp[j]=array[i];
+                j++;
+            }
+        }
+        array=temp;
+        if(showMessage){
+        System.out.println("\nПустые секции удалены.\n");}
+    }
+
+    public String getArrayType(){
+        if(array[0] instanceof Car){
+            return "Car";}
+            else if(array[0] instanceof Book){
+                return "Book";
+        }
+            else return "RootVegetable";
+        }
+
+    public void comparatorBookOptions(int selection){
+        long start = System.currentTimeMillis();
+            switch (selection){
+                case 1:
+                    context.sortArray(array, Comparator.comparing(book -> ((Book) book).getTitle()));
+                    break;
+                case 2:
+                    context.sortArray(array, Comparator.comparing(book -> ((Book) book).getAuthor()));
+                    break;
+                case 3:
+                    context.sortArray(array, Comparator.comparingInt(book -> ((Book) book).getNumberOfPages()));
+                    break;
+                default:
+                    System.out.println("Неверный выбор. Попробуйте снова.\n");
+            }
+        long stop = System.currentTimeMillis();
+        System.out.printf("\nМассив отсортирован за:\t%d ms\n\n", (stop - start));
+        }
+
+    public void comparatorCarOptions(int selection){
+        long start = System.currentTimeMillis();
+        switch (selection){
+            case 1:
+                context.sortArray(array, Comparator.comparing(car -> ((Car) car).getPower()));
+                break;
+            case 2:
+                context.sortArray(array, Comparator.comparing(car -> ((Car) car).getModel()));
+                break;
+            case 3:
+                context.sortArray(array, Comparator.comparing(car -> ((Car) car).getYearOfProduction()));
+                break;
+            default:
+                System.out.println("Неверный выбор. Попробуйте снова.\n");
+        }
+        long stop = System.currentTimeMillis();
+        System.out.printf("\nМассив отсортирован за:\t%d ms\n\n", (stop - start));
+    }
+
+    public void comparatorRootVegetableOptions(int selection){
+        long start = System.currentTimeMillis();
+        switch (selection){
+            case 1:
+                context.sortArray(array, Comparator.comparing(root -> ((RootVegetable) root).getType()));
+                break;
+            case 2:
+                context.sortArray(array, Comparator.comparing(root -> ((RootVegetable) root).getColor()));
+                break;
+            case 3:
+                context.sortArray(array, Comparator.comparing(root -> ((RootVegetable) root).getWeight()));
+                break;
+            default:
+                System.out.println("Неверный выбор. Попробуйте снова.\n");
+        }
+        long stop = System.currentTimeMillis();
+        System.out.printf("\nМассив отсортирован за:\t%d ms\n\n", (stop - start));
+    }
+
+    public void choiceTypeSorting(int choice){
+        switch (choice){
+            case 1:context.setStrategy(new QuickSortTemp<>());
+                System.out.println("\nВыбран вариант сортировки QuickSort\n");
+                typeSort="QuickSort";
+                break;
+            case 2:context.setStrategy(new MergeSortTemp<>());
+                System.out.println("\nВыбран вариант сортировки MergeSort\n");
+                typeSort="MergeSort";
+                break;
+            case 3:  context.setStrategy(new BubbleSort<>());
+                System.out.println("\nВыбран вариант сортировки BubbleSort\n");
+                typeSort="BubbleSort";
+                break;
+
+        }
+
+    }
+    public String getTypeSort() {
+        return typeSort;
+    }
+
 }

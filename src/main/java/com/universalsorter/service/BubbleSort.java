@@ -2,15 +2,10 @@ package com.universalsorter.service;
 
 import java.util.Comparator;
 
-public class BubbleSort<T> {
+public class BubbleSort<T> implements SortingStrategy<T>{
 
-    private final Comparator<T> comparator;
-
-    public BubbleSort(Comparator<T> comparator) {
-        this.comparator = comparator;
-    }
-
-    public void bubbleSort(T[] array) {
+    @Override
+    public void sort(T[] array, Comparator<T> comparator) {
         boolean swapped;
         do {
             swapped = false;

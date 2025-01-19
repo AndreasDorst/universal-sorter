@@ -1,10 +1,15 @@
 package com.universalsorter.utils;
 import java.io.IOException;
 import java.util.Scanner;
+import com.universalsorter.model.Book;
+import com.universalsorter.model.Car;
+import com.universalsorter.model.RootVegetable;
+import com.universalsorter.model.SupportedTypes;
 
 public class ConsoleMenu {
     private ArrayManager arrayManager;
     private Scanner scanner;
+    private SupportedTypes arrayDataType;
 
     public ConsoleMenu() {
         arrayManager = new ArrayManager();
@@ -39,8 +44,10 @@ public class ConsoleMenu {
             System.out.println("2. Отсортировать массив");
             System.out.println("3. Перемешать массив");
             System.out.println("4. Информация о массиве");
-            System.out.println("5. Очистить массив");
-            System.out.println("6. Удалить массив");
+            System.out.println("5. Убрать пустые секции массива");
+            System.out.println("6. Очистить массив");
+            System.out.println("7. Удалить массив");
+            System.out.println("8. Выполнить поиск элемента");
             System.out.println("0. Выход");
             System.out.print("Выберите пункт меню: ");
         }
@@ -73,7 +80,7 @@ public class ConsoleMenu {
             }
         }
         else
-        if (choice.matches("^[0-6]$")) {
+        if (choice.matches("^[0-8]$")) {
             selection=Integer.parseInt(choice);
             if(selection>0){
                 selection=selection+3;
@@ -95,7 +102,7 @@ public class ConsoleMenu {
                 saveDataToFile();
                 break;
             case 5:
-                arrayManager.sortArray();
+                sortArrayMenu();
                 break;
             case 6:
                 arrayManager.shuffleArray();
@@ -103,15 +110,29 @@ public class ConsoleMenu {
             case 7:
                 showArrayInfo();
                 break;
-            case 8:
+            case 8:arrayManager.removeNullElements(true);break;
+            case 9:
                 arrayManager.clearArray();
                 break;
-            case 3,9:
+            case 3,10:
                 arrayManager.deleteArray();
                 break;
-
-
-
+            case 11:
+            	System.out.println("\nЖдём реализацию по вводу элемента. Пока ищет дефолтное значение\n");
+            	Comparable searchedElement = null;
+            	switch (arrayDataType) {
+            		case SupportedTypes.BOOK:
+            			searchedElement = new Book.Builder().title("Война и мир").author("Лев Толстой").page(550).build();
+            			break;
+            		case SupportedTypes.CAR:
+            			searchedElement = new Car.Builder().model("BMW M3").power(473.0).yearOfProduction(2022).build();
+            			break;
+            		case SupportedTypes.ROOT_VEGETABLE:
+            			searchedElement = new RootVegetable.Builder().type("Репа").weight(175.0).color("Белый").build();
+            			break;
+            	}
+	    		System.out.println(findElement(searchedElement) + "\n");
+	    		break;
             case 0:
                 System.exit(0);
                 break;
@@ -132,7 +153,9 @@ public class ConsoleMenu {
 
         System.out.println("\n1. Загрузить данные из программы");
         System.out.println("2. Загрузить данные из файла");
+
         System.out.println("3. Загрузить данные вручную");
+ main
         System.out.println("0. Назад");
         System.out.print("Выберите пункт меню: ");
         String choice = scanner.next();
@@ -142,15 +165,23 @@ public class ConsoleMenu {
             selection=Integer.parseInt(choice);
 
         } else {
-            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 3.\n");return;
+
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 3.\n");
+            return;
+main
         }
 
+        int dataType = selectDataType();
+        
         switch (selection) {
             case 1:
-                selectDataTypeFromStorage();
+            	arrayManager.downloadDataFromStorage(dataType);
                 break;
             case 2:
-                selectDataTypeFromFile();
+            	arrayManager.downloadDataFromFile(dataType);
+                break;
+            case 3:
+            	System.out.println("\nФункционал находится в разработке.\n");
                 break;
             case 3:
                 selectDataTypeByHand();
@@ -161,6 +192,7 @@ public class ConsoleMenu {
                 System.out.println("\nНеверный выбор. Попробуйте снова.\n");
         }
     }
+
 
     private void selectDataTypeByHand() {
         System.out.println("\n Введите тип данных:");
@@ -190,6 +222,7 @@ public class ConsoleMenu {
 
 
     private void selectDataTypeFromStorage(){
+ main
         System.out.println("\n1. Загрузить данные типа Book");
         System.out.println("2. Загрузить данные типа Car");
         System.out.println("3. Загрузить данные типа RootVegetable");
@@ -202,49 +235,65 @@ public class ConsoleMenu {
         if (choice.matches("^[0-4]$")) {
             selection=Integer.parseInt(choice);
 
-        } else {
-            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 4.\n");
-            return;
-        }
-        if(selection>0){
-            arrayManager.downloadDataFromStorage(selection);
-        }
-        else
-            System.out.println();
-            return;
-        }
-
-    private void selectDataTypeFromFile() throws IOException {
-        System.out.println("\n1. Загрузить данные типа Book");
-        System.out.println("2. Загрузить данные типа Car");
-        System.out.println("3. Загрузить данные типа RootVegetable");
-        System.out.println("4. Загрузить данные случайного типа");
-        System.out.println("0. Назад");
-        System.out.print("Выберите пункт меню: ");
-        String choice = scanner.next();
-
-        int selection=0;
-        if (choice.matches("^[0-4]$")) {
-            selection=Integer.parseInt(choice);
-
-        } else {
-            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 4.\n");
-            return;
-        }
-        if(selection>0){
-            arrayManager.downloadDataFromFile(selection);
-        }
-        else
-            System.out.println();
-        return;
+            switch (selection) {
+			    case 1:
+			    	arrayDataType = SupportedTypes.BOOK;
+			        break;
+			    case 2:
+			    	arrayDataType = SupportedTypes.CAR;
+			    	break;
+			    case 3:
+			    	arrayDataType = SupportedTypes.ROOT_VEGETABLE;
+			    	break;
     }
 
+        } else {
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 4.\n");
+        }
+
+        return selection;
+    }
 
 
     private void saveDataToFile() throws IOException {
 
         arrayManager.saveToFile();
     }
+
+    private void sortArrayMenu() {
+        System.out.printf("\nВыбран тип сортировки - %s\n",arrayManager.getTypeSort());
+        System.out.println("1. Естественный порядок сортировки");
+        System.out.println("2. Выбрать тип сортировки");
+        System.out.println("3. Выбрать порядок сортировки");
+        System.out.println("0. Назад");
+        System.out.print("Выберите пункт меню: ");
+
+        String choice = scanner.next();
+        int selection=0;
+        if (choice.matches("^[0-3]$")) {
+            selection=Integer.parseInt(choice);
+
+        } else {
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 3.\n");return;
+        }
+
+        switch (selection) {
+            case 1:
+                arrayManager.sortArray();
+                break;
+            case 2:
+                choiceTypeSortingOptions();
+                break;
+            case 3:
+                choiceComparatorOptions();
+                break;
+            case 0:
+                break;
+            default:
+                System.out.println("Неверный выбор. Попробуйте снова.\n");
+        }
+    }
+
 
     private void showArrayInfo() {
         System.out.println("\n1. Вывести размер массива");
@@ -279,12 +328,75 @@ public class ConsoleMenu {
         }
     }
 
-
+    private String findElement(Comparable element) {
+    	return arrayManager.findElement(element);
+    }
+    
     private void printArrayElement() {
         System.out.printf("\nВыберите элемент массива(от 1 до %d): ",arrayManager.getArraySize());
         Scanner scanner = new Scanner(System.in);
         String operation = scanner.next();
         arrayManager.getElement(operation);
     }
+
+    private void choiceComparatorOptions(){
+        String type= arrayManager.getArrayType();
+        if(type.equals("Book")){
+            System.out.println("\n1. Сортировать по названию книги");
+            System.out.println("2. Сортировать по автору");
+            System.out.println("3. Сортировать по количеству страниц");
+        }
+        else  if(type.equals("Car")){
+            System.out.println("1. Сортировать по мощности автомобиля");
+            System.out.println("2. Сортировать по марке автомобиля");
+            System.out.println("3. Сортировать по дате выпуска автомобиля");
+        }
+        else {
+            System.out.println("1. Сортировать по типу корнеплода");
+            System.out.println("2. Сортировать по цвету корнеплода");
+            System.out.println("3. Сортировать по весу корнеплода");
+        }
+
+        System.out.println("0. Назад");
+        System.out.print("Выберите пункт меню: ");
+
+        String choice = scanner.next();
+        int selection=0;
+        if (choice.matches("^[0-4]$")) {
+            selection=Integer.parseInt(choice);
+
+        } else {
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 4.\n");return;
+        }
+        switch (type){
+            case "Book":arrayManager.comparatorBookOptions(selection);break;
+            case "Car":arrayManager.comparatorCarOptions(selection);break;
+            case "RootVegetable":arrayManager.comparatorRootVegetableOptions(selection);break;
+            default:
+                System.out.println("Неверный выбор. Попробуйте снова.\n");
+
+        }
+
+    }
+
+    private void choiceTypeSortingOptions(){
+        System.out.println("1. QuickSort");
+        System.out.println("2. MergeSort");
+        System.out.println("3. BubbleSort");
+        System.out.println("0. Назад");
+        System.out.print("Выберите пункт меню: ");
+
+        String choice = scanner.next();
+        int selection=0;
+        if (choice.matches("^[0-3]$")) {
+            selection=Integer.parseInt(choice);
+
+        } else {
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 3.\n");return;
+        }
+        arrayManager.choiceTypeSorting(selection);
+
+    }
+
 
 }
