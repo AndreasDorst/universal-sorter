@@ -225,28 +225,30 @@ public class ConsoleMenu {
     }
 
     private void sortArrayMenu() {
+        System.out.printf("\nВыбран тип сортировки - %s\n",arrayManager.getTypeSort());
         System.out.println("1. Естественный порядок сортировки");
-        System.out.println("2. QuickSort");
-        System.out.println("3. MergeSort");
-        System.out.println("4. BubbleSort");
+        System.out.println("2. Выбрать тип сортировки");
+        System.out.println("3. Выбрать порядок сортировки");
         System.out.println("0. Назад");
         System.out.print("Выберите пункт меню: ");
 
         String choice = scanner.next();
         int selection=0;
-        if (choice.matches("^[0-4]$")) {
+        if (choice.matches("^[0-3]$")) {
             selection=Integer.parseInt(choice);
 
         } else {
-            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 4.\n");return;
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 3.\n");return;
         }
 
         switch (selection) {
             case 1:
                 arrayManager.sortArray();
                 break;
-            case 2,3,4:
-                arrayManager.setSortStrategy(selection);
+            case 2:
+                choiceTypeSortingOptions();
+                break;
+            case 3:
                 choiceComparatorOptions();
                 break;
             case 0:
@@ -334,11 +336,31 @@ public class ConsoleMenu {
             case "Book":arrayManager.comparatorBookOptions(selection);break;
             case "Car":arrayManager.comparatorCarOptions(selection);break;
             case "RootVegetable":arrayManager.comparatorRootVegetableOptions(selection);break;
-            default:break;
-
+            default:
+                System.out.println("Неверный выбор. Попробуйте снова.\n");
 
         }
 
     }
+
+    private void choiceTypeSortingOptions(){
+        System.out.println("1. QuickSort");
+        System.out.println("2. MergeSort");
+        System.out.println("3. BubbleSort");
+        System.out.println("0. Назад");
+        System.out.print("Выберите пункт меню: ");
+
+        String choice = scanner.next();
+        int selection=0;
+        if (choice.matches("^[0-3]$")) {
+            selection=Integer.parseInt(choice);
+
+        } else {
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 3.\n");return;
+        }
+        arrayManager.choiceTypeSorting(selection);
+
+    }
+
 
 }
