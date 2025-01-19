@@ -1,6 +1,5 @@
 package com.universalsorter.utils;
 import java.io.IOException;
-import java.time.Year;
 import java.util.Scanner;
 
 import com.universalsorter.model.*;
