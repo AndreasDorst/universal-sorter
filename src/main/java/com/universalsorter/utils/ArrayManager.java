@@ -7,6 +7,7 @@ import com.universalsorter.repository.BookRepository;
 import com.universalsorter.repository.CarRepository;
 import com.universalsorter.repository.RootVegetableRepository;
 import com.universalsorter.service.*;
+import java.io.File;
 
 import java.io.IOException;
 import java.time.Year;
@@ -186,6 +187,19 @@ public class ArrayManager {
             }
         }
     }
+    /**
+     * Метод для валидации файла
+     * Проверка, что файл не пустой
+     * Проверка, что файл существует
+     * Проверка, что файл является TXT
+     */
+    private void fileValidation(String filePath){
+        File file = new File(filePath); // путь до файла
+        boolean isValid = file.exists() && file.isFile() && filePath.endsWith(".txt") && file.length()>0; // проверка на валидность
+        if (!isValid) {
+            throw new IllegalArgumentException("Файл не существует или не является TXT");
+        }
+    }
 
     //загрузка данных из файла с массив.
     public void downloadDataFromFile(int choice) throws IOException{
@@ -196,9 +210,9 @@ public class ArrayManager {
         }
         String file="";
         switch (choice){
-            case 1:file= fileForReadBook;break;
-            case 2:file= fileForReadCar;break;
-            case 3:file= fileForReadRootVegetable;break;
+            case 1:fileValidation(fileForReadBook);file= fileForReadBook;break;
+            case 2:fileValidation(fileForReadCar);file= fileForReadCar;break;
+            case 3:fileValidation(fileForReadRootVegetable);file= fileForReadRootVegetable;break;
         }
 
         List<Storable> objects = fileHandler.readFromFile(file);
