@@ -1,10 +1,8 @@
 package com.universalsorter.utils;
 import java.io.IOException;
 import java.util.Scanner;
-import com.universalsorter.model.Book;
-import com.universalsorter.model.Car;
-import com.universalsorter.model.RootVegetable;
-import com.universalsorter.model.SupportedTypes;
+
+import com.universalsorter.model.*;
 
 public class ConsoleMenu {
     private ArrayManager arrayManager;
@@ -139,7 +137,7 @@ public class ConsoleMenu {
 
         System.out.println("\n1. Загрузить данные из программы");
         System.out.println("2. Загрузить данные из файла");
-        System.out.println("3. Ввести данные вручную");
+        System.out.println("3. Загрузить данные вручную");
         System.out.println("0. Назад");
         System.out.print("Выберите пункт меню: ");
         String choice = scanner.next();
@@ -163,7 +161,7 @@ public class ConsoleMenu {
             	arrayManager.downloadDataFromFile(dataType);
                 break;
             case 3:
-            	System.out.println("\nФункционал находится в разработке.\n");
+                arrayManager.fillArrayWithChosenData(dataType);
                 break;
             case 0:
                 break;
