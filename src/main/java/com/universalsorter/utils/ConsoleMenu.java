@@ -44,10 +44,9 @@ public class ConsoleMenu {
             System.out.println("2. Отсортировать массив");
             System.out.println("3. Перемешать массив");
             System.out.println("4. Информация о массиве");
-            System.out.println("5. Убрать пустые секции массива");
-            System.out.println("6. Очистить массив");
-            System.out.println("7. Удалить массив");
-            System.out.println("8. Выполнить поиск элемента");
+            System.out.println("5. Очистить массив");
+            System.out.println("6. Удалить массив");
+            System.out.println("7. Выполнить поиск элемента");
             System.out.println("0. Выход");
             System.out.print("Выберите пункт меню: ");
         }
@@ -55,7 +54,7 @@ public class ConsoleMenu {
     }
 
 
-    private void handleMainMenu(String choice) throws IOException, InstantiationException, IllegalAccessException {
+    private void handleMainMenu(String choice) throws IOException{
 
         int selection=0;
         if(!arrayManager.isArrayCreated()) {
@@ -80,14 +79,14 @@ public class ConsoleMenu {
             }
         }
         else
-        if (choice.matches("^[0-8]$")) {
+        if (choice.matches("^[0-7]$")) {
             selection=Integer.parseInt(choice);
             if(selection>0){
                 selection=selection+3;
             }
 
         } else {
-            System.out.println("\nНеправильный ввод. Пожалуйста, введите значение от 0 до 4.\n");return;
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значение от 0 до 7.\n");return;
         }
 
 
@@ -110,29 +109,16 @@ public class ConsoleMenu {
             case 7:
                 showArrayInfo();
                 break;
-            case 8:arrayManager.removeNullElements(true);break;
-            case 9:
+            case 8:
                 arrayManager.clearArray();
                 break;
-            case 3,10:
+            case 3,9:
                 arrayManager.deleteArray();
                 break;
-            case 11:
-            	System.out.println("\nЖдём реализацию по вводу элемента. Пока ищет дефолтное значение\n");
-            	Comparable searchedElement = null;
-            	switch (arrayDataType) {
-            		case SupportedTypes.BOOK:
-            			searchedElement = new Book.Builder().title("Война и мир").author("Лев Толстой").page(550).build();
-            			break;
-            		case SupportedTypes.CAR:
-            			searchedElement = new Car.Builder().model("BMW M3").power(473.0).yearOfProduction(2022).build();
-            			break;
-            		case SupportedTypes.ROOT_VEGETABLE:
-            			searchedElement = new RootVegetable.Builder().type("Репа").weight(175.0).color("Белый").build();
-            			break;
-            	}
-	    		System.out.println(findElement(searchedElement) + "\n");
-	    		break;
+            case 10:
+                searchElementByInput();
+                break;
+
             case 0:
                 System.exit(0);
                 break;
@@ -360,6 +346,54 @@ public class ConsoleMenu {
         }
         arrayManager.choiceTypeSorting(selection);
 
+    }
+
+    private void searchElementByInput() {
+        if (arrayManager.isEmptyArray()) {
+            System.out.println("\nМассив пуст. Поиск невозможен.\n");
+            return;
+        }
+
+        System.out.println("\nВведите данные для поиска:");
+        scanner.nextLine();
+        Comparable searchedElement = null;
+        switch (arrayDataType) {
+            case BOOK:
+                System.out.print("Введите название книги: ");
+                String title = scanner.nextLine();
+                System.out.println();
+                System.out.print("Введите автора книги: ");
+                String author = scanner.nextLine();
+                System.out.println();
+                System.out.print("Введите количество страниц: ");
+                int pages = scanner.nextInt();
+                searchedElement = new Book.Builder().title(title).author(author).page(pages).build();
+                break;
+            case CAR:
+                System.out.print("Введите модель автомобиля: ");
+                String model = scanner.nextLine();
+                System.out.print("Введите мощность автомобиля: ");
+                double power = scanner.nextDouble();
+                System.out.print("Введите год выпуска автомобиля: ");
+                int year = scanner.nextInt();
+                searchedElement = new Car.Builder().model(model).power(power).yearOfProduction(year).build();
+                break;
+            case ROOT_VEGETABLE:
+                System.out.print("Введите тип корнеплода: ");
+                String type = scanner.nextLine();
+                System.out.print("Введите цвет корнеплода: ");
+                String color = scanner.nextLine();
+                System.out.print("Введите вес корнеплода: ");
+                double weight = scanner.nextDouble();
+                searchedElement = new RootVegetable.Builder().type(type).color(color).weight(weight).build();
+                break;
+        }
+
+        if (searchedElement != null) {
+            System.out.println(findElement(searchedElement) + "\n");
+        } else {
+            System.out.println("\nНе удалось создать элемент для поиска.\n");
+        }
     }
 
 
