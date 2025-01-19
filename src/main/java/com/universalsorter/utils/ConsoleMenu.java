@@ -242,7 +242,6 @@ public class ConsoleMenu {
         }
     }
 
-
     private void showArrayInfo() {
         System.out.println("\n1. Вывести размер массива");
         System.out.println("2. Вывести содержимое массива");
