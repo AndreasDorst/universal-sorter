@@ -242,7 +242,6 @@ public class ConsoleMenu {
         }
     }
 
-
     private void showArrayInfo() {
         System.out.println("\n1. Вывести размер массива");
         System.out.println("2. Вывести содержимое массива");
@@ -359,21 +358,39 @@ public class ConsoleMenu {
             case BOOK:
                 System.out.print("Введите название книги: ");
                 String title = scanner.nextLine();
-                System.out.println();
                 System.out.print("Введите автора книги: ");
                 String author = scanner.nextLine();
-                System.out.println();
                 System.out.print("Введите количество страниц: ");
-                int pages = scanner.nextInt();
+                int pages;
+                String pageStr = scanner.nextLine();
+                try {
+                    pages = Integer.parseInt(pageStr);
+                } catch (NumberFormatException e) {
+                    System.out.println("\nОшибка: введенное значение не является числом типа int.");
+                    return;
+                }
                 searchedElement = new Book.Builder().title(title).author(author).page(pages).build();
                 break;
             case CAR:
                 System.out.print("Введите модель автомобиля: ");
                 String model = scanner.nextLine();
                 System.out.print("Введите мощность автомобиля: ");
-                double power = scanner.nextDouble();
+                String powerStr = scanner.nextLine();
+                double power;
+                try {
+                    power = Double.parseDouble(powerStr);
+                } catch (NumberFormatException e) {
+                    System.out.println("\nОшибка: введенное значение не является числом типа double.");return;
+                }
                 System.out.print("Введите год выпуска автомобиля: ");
-                int year = scanner.nextInt();
+
+                String yearStr = scanner.nextLine();
+                int year;
+                try {
+                    year = Integer.parseInt(yearStr);
+                } catch (NumberFormatException e) {
+                    System.out.println("\nОшибка: введенное значение не является числом типа int.");return;
+                }
                 searchedElement = new Car.Builder().model(model).power(power).yearOfProduction(year).build();
                 break;
             case ROOT_VEGETABLE:
@@ -382,7 +399,13 @@ public class ConsoleMenu {
                 System.out.print("Введите цвет корнеплода: ");
                 String color = scanner.nextLine();
                 System.out.print("Введите вес корнеплода: ");
-                double weight = scanner.nextDouble();
+                String weightStr = scanner.nextLine();
+                double weight;
+                try {
+                    weight = Double.parseDouble(weightStr);
+                } catch (NumberFormatException e) {
+                    System.out.println("\nОшибка: введенное значение не является числом типа double.");return;
+                }
                 searchedElement = new RootVegetable.Builder().type(type).color(color).weight(weight).build();
                 break;
         }
