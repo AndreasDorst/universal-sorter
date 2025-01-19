@@ -131,8 +131,8 @@ public class ConsoleMenu {
             			searchedElement = new RootVegetable.Builder().type("Репа").weight(175.0).color("Белый").build();
             			break;
             	}
-    		System.out.println(findElement(searchedElement));
-
+	    		System.out.println(findElement(searchedElement));
+	    		break;
             case 0:
                 System.exit(0);
                 break;
