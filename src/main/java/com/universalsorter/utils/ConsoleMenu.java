@@ -139,9 +139,7 @@ public class ConsoleMenu {
 
         System.out.println("\n1. Загрузить данные из программы");
         System.out.println("2. Загрузить данные из файла");
-
-        System.out.println("3. Загрузить данные вручную");
- main
+        System.out.println("3. Ввести данные вручную");
         System.out.println("0. Назад");
         System.out.print("Выберите пункт меню: ");
         String choice = scanner.next();
@@ -151,10 +149,8 @@ public class ConsoleMenu {
             selection=Integer.parseInt(choice);
 
         } else {
-
             System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 3.\n");
             return;
-main
         }
 
         int dataType = selectDataType();
@@ -169,9 +165,6 @@ main
             case 3:
             	System.out.println("\nФункционал находится в разработке.\n");
                 break;
-            case 3:
-                selectDataTypeByHand();
-                break;
             case 0:
                 break;
             default:
@@ -179,36 +172,7 @@ main
         }
     }
 
-
-    private void selectDataTypeByHand() {
-        System.out.println("\n Введите тип данных:");
-        System.out.println("1. Создать данные типа Book");
-        System.out.println("2. Создать данные типа Car");
-        System.out.println("3. Создать данные типа RootVegetable");
-        System.out.println("0. Назад");
-        System.out.print("Выберите пункт меню: ");
-
-        String choice = scanner.next();
-
-        int selection=0;
-        if (choice.matches("^[0-3]$")) {
-            selection=Integer.parseInt(choice);
-
-        } else {
-            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 3.\n");
-            return;
-        }
-        if(selection>0){
-            arrayManager.fillArrayWithChosenData(selection);
-        }
-        else
-            System.out.println();
-        return;
-    }
-
-
-    private void selectDataTypeFromStorage(){
- main
+    private int selectDataType() {
         System.out.println("\n1. Загрузить данные типа Book");
         System.out.println("2. Загрузить данные типа Car");
         System.out.println("3. Загрузить данные типа RootVegetable");
