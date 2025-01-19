@@ -104,7 +104,7 @@ public class ConsoleMenu {
             case 7:
                 showArrayInfo();
                 break;
-            case 8:arrayManager.removeNullElements();break;
+            case 8:arrayManager.removeNullElements(true);break;
             case 9:
                 arrayManager.clearArray();
                 break;
@@ -183,8 +183,8 @@ public class ConsoleMenu {
         }
         else
             System.out.println();
-            return;
-        }
+        return;
+    }
 
     private void selectDataTypeFromFile() throws IOException {
         System.out.println("\n1. Загрузить данные типа Book");
@@ -212,37 +212,35 @@ public class ConsoleMenu {
     }
 
 
-
     private void saveDataToFile() throws IOException {
 
         arrayManager.saveToFile();
     }
 
     private void sortArrayMenu() {
-        System.out.println("\n1. Вывести размер массива");
-        System.out.println("2. Вывести содержимое массива");
-        System.out.println("3. Вывести элемент массива");
+        System.out.println("1. Естественный порядок сортировки");
+        System.out.println("2. QuickSort");
+        System.out.println("3. MergeSort");
+        System.out.println("4. BubbleSort");
         System.out.println("0. Назад");
         System.out.print("Выберите пункт меню: ");
 
         String choice = scanner.next();
         int selection=0;
-        if (choice.matches("^[0-3]$")) {
+        if (choice.matches("^[0-4]$")) {
             selection=Integer.parseInt(choice);
 
         } else {
-            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 3.\n");return;
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 4.\n");return;
         }
 
         switch (selection) {
             case 1:
-                System.out.println("Размер массива: " + arrayManager.getArraySize()+"\n");
+                arrayManager.sortArray();
                 break;
-            case 2:
-                System.out.println(arrayManager.getArrayContents());
-                break;
-            case 3:
-                printArrayElement();
+            case 2,3,4:
+                arrayManager.setSortStrategy(selection);
+                choiceComparatorOptions();
                 break;
             case 0:
                 break;
@@ -285,15 +283,51 @@ public class ConsoleMenu {
         }
     }
 
-
-
-
-
     private void printArrayElement() {
         System.out.printf("\nВыберите элемент массива(от 1 до %d): ",arrayManager.getArraySize());
         Scanner scanner = new Scanner(System.in);
         String operation = scanner.next();
         arrayManager.getElement(operation);
+    }
+
+    private void choiceComparatorOptions(){
+        String type= arrayManager.getArrayType();
+        if(type.equals("Book")){
+            System.out.println("\n1. Сортировать по названию книги");
+            System.out.println("2. Сортировать по автору");
+            System.out.println("3. Сортировать по количеству страниц");
+        }
+        else  if(type.equals("Car")){
+            System.out.println("1. Сортировать по мощности автомобиля");
+            System.out.println("2. Сортировать по марке автомобиля");
+            System.out.println("3. Сортировать по дате выпуска автомобиля");
+        }
+        else {
+            System.out.println("1. Сортировать по типу корнеплода");
+            System.out.println("2. Сортировать по цвету корнеплода");
+            System.out.println("3. Сортировать по весу корнеплода");
+        }
+
+        System.out.println("0. Назад");
+        System.out.print("Выберите пункт меню: ");
+
+        String choice = scanner.next();
+        int selection=0;
+        if (choice.matches("^[0-4]$")) {
+            selection=Integer.parseInt(choice);
+
+        } else {
+            System.out.println("\nНеправильный ввод. Пожалуйста, введите значения от 0 до 4.\n");return;
+        }
+        switch (type){
+            case "Book":arrayManager.comparatorBookOptions(selection);break;
+            case "Car":arrayManager.comparatorCarOptions(selection);break;
+            case "RootVegetable":arrayManager.comparatorRootVegetableOptions(selection);break;
+            default:break;
+
+
+        }
+
     }
 
 }
