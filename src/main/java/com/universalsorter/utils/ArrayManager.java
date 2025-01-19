@@ -35,6 +35,7 @@ public class ArrayManager {
 
 
 
+
     public ArrayManager() {
         bookRepository = new BookRepository();
         carRepository = new CarRepository();
@@ -70,10 +71,13 @@ public class ArrayManager {
         }
 
         switch (choice){
-            case 1:fillArrayBookTypeFromStorage();break;
+            case 1:
+                fillArrayBookTypeFromStorage();
+                break;
             case 2:fillArrayCarTypeFromStorage();break;
             case 3:fillArrayRootVegetableTypeFromStorage();break;
-
+            default:
+                System.out.println("Неверный выбор. Попробуйте снова.\n");
         }
     }
 
@@ -81,6 +85,7 @@ public class ArrayManager {
         for(int i=0;(i<array.length&&i<bookRepository.getSizeBookList());i++){
             array[i]= bookRepository.getBook(i);
         }
+        removeNullElements(false);
             System.out.println("\nМассив заполнен данными типа Book\n");
     }
 
@@ -88,6 +93,7 @@ public class ArrayManager {
         for(int i=0;(i<array.length&&i<carRepository.getSizeCarList());i++){
             array[i]= carRepository.getCar(i);
         }
+        removeNullElements(false);
             System.out.println("\nМассив заполнен данными типа Car\n");
     }
 
@@ -95,6 +101,7 @@ public class ArrayManager {
         for(int i=0;(i<array.length&&i<rootVegetableRepository.getSizeRootList());i++){
             array[i]= rootVegetableRepository.getRootVegetable(i);
         }
+        removeNullElements(false);
             System.out.println("\nМассив заполнен данными типа RootVegetable\n");
     }
 
@@ -204,8 +211,11 @@ public class ArrayManager {
                 System.out.println("\nМассив заполнен данными типа Car\n");break;
             case 3:
                 System.out.println("\nМассив заполнен данными типа RootVegetable\n");break;
+            default:
+                System.out.println("Неверный выбор. Попробуйте снова.\n");
 
         }
+        removeNullElements(false);
     }
 
     public boolean isArrayCreated() {
