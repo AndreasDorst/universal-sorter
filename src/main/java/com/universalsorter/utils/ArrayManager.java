@@ -5,6 +5,7 @@ import com.universalsorter.repository.CarRepository;
 import com.universalsorter.repository.RootVegetableRepository;
 import com.universalsorter.service.FileHandler;
 import java.io.IOException;
+import java.time.Year;
 import java.util.*;
 import java.util.Optional;
 import java.util.Random;
@@ -202,6 +203,71 @@ public class ArrayManager {
                 System.out.println("\nМассив заполнен данными типа RootVegetable\n");break;
 
         }
+    }
+
+    //ввод данных вручную.
+    public void fillArrayWithChosenData(int selection) {
+
+        Scanner scanner = new Scanner(System.in);
+        String data = "";
+
+        for (int i = 0; i < array.length; i++) {
+            while (true) {
+                try {
+
+                    switch (selection) {
+                        case 1: // книга
+                            System.out.println("\nСоздание Book №" + (i+1));
+                            System.out.println("Введите автора");
+                            data = "Book,".concat(scanner.nextLine());
+
+                            System.out.println("Введите название");
+                            data = data.concat(",".concat(scanner.nextLine()));
+
+                            System.out.println("Введите количество страниц (Integer)");
+                            data = data.concat(",".concat(String.valueOf(Integer.parseInt(scanner.nextLine())))); // для проверки ввода
+                            break;
+                        case 2: // машина
+                            System.out.println("\nСоздание Car №" + (i+1));
+                            System.out.println("Введите модель");
+                            data = "Car,".concat(scanner.nextLine());
+
+                            System.out.println("Введите мощность (Double), (min = 0, max = 2000)");
+                            data = data.concat(",".concat(String.valueOf(Double.parseDouble(scanner.nextLine())))); // для проверки ввода
+
+                            System.out.println("Введите год выпуска (Integer), (min = 1800, max = ".concat(String.valueOf(Year.now().getValue())).concat(")"));
+                            data = data.concat(",".concat(String.valueOf(Integer.parseInt(scanner.nextLine())))); // для проверки ввода
+                            break;
+                        case 3: // корнеплод
+                            System.out.println("\nСоздание RootVegetable №" + (i+1));
+                            System.out.println("Введите вид");
+                            data = "RootVegetable,".concat(scanner.nextLine());
+
+                            System.out.println("Введите вес (Double), (min = 0, max = 10000)");
+                            data = data.concat(",".concat(String.valueOf(Double.parseDouble(scanner.nextLine())))); // для проверки ввода
+
+                            System.out.println("Введите цвет");
+                            data = data.concat(",".concat(scanner.nextLine()));
+                            break;
+                    }
+                    String[] split = data.split(",");
+                    String type = split[0];
+                    Storable obj = null;
+                    switch (type){
+                        case "Book":obj = bookRepository.getBook(0).deserialize(data);break;
+                        case "Car":obj = carRepository.getCar(0).deserialize(data);break;
+                        case "RootVegetable":obj = rootVegetableRepository.getRootVegetable(0).deserialize(data);break;
+                    }
+                    array[i] = (Comparable) obj;
+                    System.out.println("Объект типа ".concat(type).concat(" №".concat(String.valueOf(i+1))).concat(" создан успешно!"));
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Некорректный ввод, пожалуйста попробуйте еще раз");
+                }
+            }
+        }
+
+        System.out.println("Массив заполнен успешно!\n");
     }
 
     public boolean isArrayCreated() {
