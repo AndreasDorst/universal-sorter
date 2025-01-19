@@ -1,16 +1,20 @@
 package com.universalsorter.utils;
+import com.universalsorter.model.Book;
+import com.universalsorter.model.Car;
+import com.universalsorter.model.RootVegetable;
 import com.universalsorter.model.Storable;
 import com.universalsorter.repository.BookRepository;
 import com.universalsorter.repository.CarRepository;
 import com.universalsorter.repository.RootVegetableRepository;
-import com.universalsorter.service.FileHandler;
+import com.universalsorter.service.*;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Arrays;
 
-
+import static com.universalsorter.service.MergeSort.*;
 
 
 public class ArrayManager {
@@ -25,12 +29,18 @@ public class ArrayManager {
     private final String fileForReadBook = "src/main/recources/book.txt";
     private final String fileForReadCar = "src/main/recources/car.txt";
     private final String fileForReadRootVegetable = "src/main/recources/rootVegetable.txt";
+    SortingContext<Comparable> context;
+
+
+
 
     public ArrayManager() {
         bookRepository = new BookRepository();
         carRepository = new CarRepository();
         rootVegetableRepository = new RootVegetableRepository();
         fileHandler=new FileHandler();
+        context=new SortingContext<>(new BubbleSort<>());
+
     }
 
 
@@ -97,13 +107,15 @@ public class ArrayManager {
 
     public void sortArray() {
         Comparable[] temp=new Comparable[array.length];
-        removeNullElements();
+        removeNullElements(false);
+        long start = System.currentTimeMillis();
         Arrays.sort(array);
+        long stop = System.currentTimeMillis();
         for(int i=0;i<array.length;i++){
             temp[i]=array[i];
         }
         array=temp;
-        System.out.println("\nМассив отсортирован.\n");
+        System.out.printf("\nМассив отсортирован за:\t%d ms\n\n", (stop - start));
     }
 
 
@@ -208,7 +220,7 @@ public class ArrayManager {
         return true;
     }
 
-    public void removeNullElements() {
+    public void removeNullElements(Boolean showMessage) {
         // Подсчитываем количество не-null элементов
         int count = 0;
         for (Comparable element : array) {
@@ -227,6 +239,91 @@ public class ArrayManager {
             }
         }
         array=temp;
-        System.out.println("\nПустые секции удалены.\n");
+        if(showMessage){
+        System.out.println("\nПустые секции удалены.\n");}
     }
+
+
+    public void setSortStrategy(int choice){
+        switch (choice){
+            case 2:
+                context.setStrategy(new QuickSortTemp<>());
+                System.out.println("\nВыбран вариант сортировки QuickSort");
+            break;
+            case 3:
+                context.setStrategy(new MergeSortTemp<>());
+                System.out.println("\nВыбран вариант сортировки MergeSort");
+            break;
+            case 4:
+                context.setStrategy(new BubbleSort<>());
+                System.out.println("\nВыбран вариант сортировки BubbleSort");
+            break;
+        }
+    }
+    public String getArrayType(){
+        if(array[0] instanceof Car){
+            return "Car";}
+            else if(array[0] instanceof Book){
+                return "Book";
+        }
+            else return "RootVegetable";
+        }
+
+    public void comparatorBookOptions(int selection){
+        long start = System.currentTimeMillis();
+            switch (selection){
+                case 1:
+                    context.sortArray(array, Comparator.comparing(book -> ((Book) book).getTitle()));
+                    break;
+                case 2:
+                    context.sortArray(array, Comparator.comparing(book -> ((Book) book).getAuthor()));
+                    break;
+                case 3:
+                    context.sortArray(array, Comparator.comparingInt(book -> ((Book) book).getNumberOfPages()));
+                    break;
+                default:
+                    System.out.println("Неверный выбор. Попробуйте снова.\n");
+            }
+        long stop = System.currentTimeMillis();
+        System.out.printf("\nМассив отсортирован за:\t%d ms\n\n", (stop - start));
+        }
+
+    public void comparatorCarOptions(int selection){
+        long start = System.currentTimeMillis();
+        switch (selection){
+            case 1:
+                context.sortArray(array, Comparator.comparing(car -> ((Car) car).getPower()));
+                break;
+            case 2:
+                context.sortArray(array, Comparator.comparing(car -> ((Car) car).getModel()));
+                break;
+            case 3:
+                context.sortArray(array, Comparator.comparing(car -> ((Car) car).getYearOfProduction()));
+                break;
+            default:
+                System.out.println("Неверный выбор. Попробуйте снова.\n");
+        }
+        long stop = System.currentTimeMillis();
+        System.out.printf("\nМассив отсортирован за:\t%d ms\n\n", (stop - start));
+    }
+
+    public void comparatorRootVegetableOptions(int selection){
+        long start = System.currentTimeMillis();
+        switch (selection){
+            case 1:
+                context.sortArray(array, Comparator.comparing(root -> ((RootVegetable) root).getType()));
+                break;
+            case 2:
+                context.sortArray(array, Comparator.comparing(root -> ((RootVegetable) root).getColor()));
+                break;
+            case 3:
+                context.sortArray(array, Comparator.comparing(root -> ((RootVegetable) root).getWeight()));
+                break;
+            default:
+                System.out.println("Неверный выбор. Попробуйте снова.\n");
+        }
+        long stop = System.currentTimeMillis();
+        System.out.printf("\nМассив отсортирован за:\t%d ms\n\n", (stop - start));
+    }
+
 }
