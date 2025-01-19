@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Arrays;
 
-import static com.universalsorter.service.MergeSort.*;
+
 
 
 public class ArrayManager {
@@ -218,6 +218,10 @@ public class ArrayManager {
             }
         }
         return true;
+    }
+
+    public String findElement(Comparable item) {
+    	return SortedArraySearch.getElement(this.array, item);
     }
 
     public void removeNullElements(Boolean showMessage) {
