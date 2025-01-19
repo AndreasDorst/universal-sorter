@@ -30,6 +30,7 @@ public class ArrayManager {
     private final String fileForReadCar = "src/main/recources/car.txt";
     private final String fileForReadRootVegetable = "src/main/recources/rootVegetable.txt";
     SortingContext<Comparable> context;
+    private String typeSort;
 
 
 
@@ -40,6 +41,7 @@ public class ArrayManager {
         rootVegetableRepository = new RootVegetableRepository();
         fileHandler=new FileHandler();
         context=new SortingContext<>(new BubbleSort<>());
+        typeSort="BubbleSort";
 
     }
 
@@ -243,23 +245,6 @@ public class ArrayManager {
         System.out.println("\nПустые секции удалены.\n");}
     }
 
-
-    public void setSortStrategy(int choice){
-        switch (choice){
-            case 2:
-                context.setStrategy(new QuickSortTemp<>());
-                System.out.println("\nВыбран вариант сортировки QuickSort");
-            break;
-            case 3:
-                context.setStrategy(new MergeSortTemp<>());
-                System.out.println("\nВыбран вариант сортировки MergeSort");
-            break;
-            case 4:
-                context.setStrategy(new BubbleSort<>());
-                System.out.println("\nВыбран вариант сортировки BubbleSort");
-            break;
-        }
-    }
     public String getArrayType(){
         if(array[0] instanceof Car){
             return "Car";}
@@ -324,6 +309,28 @@ public class ArrayManager {
         }
         long stop = System.currentTimeMillis();
         System.out.printf("\nМассив отсортирован за:\t%d ms\n\n", (stop - start));
+    }
+
+    public void choiceTypeSorting(int choice){
+        switch (choice){
+            case 1:context.setStrategy(new QuickSortTemp<>());
+                System.out.println("\nВыбран вариант сортировки QuickSort\n");
+                typeSort="QuickSort";
+                break;
+            case 2:context.setStrategy(new MergeSortTemp<>());
+                System.out.println("\nВыбран вариант сортировки MergeSort\n");
+                typeSort="MergeSort";
+                break;
+            case 3:  context.setStrategy(new BubbleSort<>());
+                System.out.println("\nВыбран вариант сортировки BubbleSort\n");
+                typeSort="BubbleSort";
+                break;
+
+        }
+
+    }
+    public String getTypeSort() {
+        return typeSort;
     }
 
 }
