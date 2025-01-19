@@ -366,7 +366,7 @@ public class ConsoleMenu {
                 try {
                     pages = Integer.parseInt(pageStr);
                 } catch (NumberFormatException e) {
-                    System.out.println("Ошибка: введенное значение не является числом типа int.");
+                    System.out.println("\nОшибка: введенное значение не является числом типа int.");
                     return;
                 }
                 searchedElement = new Book.Builder().title(title).author(author).page(pages).build();
